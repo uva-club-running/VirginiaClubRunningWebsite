@@ -7,32 +7,32 @@ function Practice() {
                 alt="Banner"
                 className="w-screen h-screen object-cover"
             />
-            <div className="absolute flex justify-start inset-0 items-start">
-                <div className="flex-row ml-[2%] mt-[5%]">
-                    <h1 className="text-center text-white text-2xl md:text-4xl lg:text-7xl font-bold font-franklin bg-opacity-50 top-4">
+            <div className="absolute flex flex-col xl:flex-row justify:center xl:justify-start inset-0 items-center xl:items-start">
+                <div className="flex-row xl:ml-[2%] mt-5 xl:mt-[5%]">
+                    <h1 className="text-center text-white text-5xl xl:text-7xl font-bold font-franklin bg-opacity-50 top-4">
                         Practices.
                     </h1>
-                    <h1 className="mt-3 text-center text-vaorange-500 text-xl md:text-3xl lg:text-5xl font-bodoni italic">Building
+                    <h1 className="mt-3 text-center text-vaorange-500 text-3xl lg:text-4xl xl:text-5xl font-bodoni italic">Building
                         character -
                         and muscles.</h1>
-                    <div className="w-230 p-4 rounded mt-5">
-                        <p className="text-white text-sm md:text-sm lg:text-2xl font-franklin italic">The club practices
+                    <div className="text-center xl: text-start sm:text p-4 rounded mt-5 md:text-md lg:text-xl xl:text-2xl text-white font-franklin italic">
+                        <p>The club practices
                             Monday through
                             Thursday at
                             Nameless Field, near Memorial Gym. Practices are held at 5:00pm during the fall. During the
                             spring, practices will be held at 5:00pm on Monday/Thursday, and 4:00pm Tuesday/Wednesday.
                             After the clock shifts on March 9th, the time for all days will be 5:00pm.</p>
-                        <p className="mt-6 text-white text-lg md:text-sm lg:text-2xl font-franklin italic">No practices
+                        <p className="mt-6">No practices
                             are mandatory; some
                             runners attend only a few practices a week while many of our runners attend as many as
                             possible. Members also frequently organize their own runs on weekends, and many track their
                             runs on Strava.</p>
                     </div>
                 </div>
-                <div className="w-full h-full flex justify-center items-center">
-                    <iframe className="widget" allowTransparency frameBorder='0' height='500' scrolling='no'
+                <div className=" w-full h-full flex justify-center items-center">
+                    <iframe className="widget mb-25 w-100 h-60 lg:h-120 lg:w-70" allowTransparency frameBorder='0' scrolling='no'
                             src='https://www.strava.com/clubs/289895/latest-rides/4b7a2cbb9790cbe9ca665bbd27ac0e68ada5c4b5?show_rides=true'
-                            width='300'></iframe>
+                            ></iframe>
                 </div>
             </div>
             <div
