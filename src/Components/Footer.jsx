@@ -10,11 +10,11 @@ function Footer() {
                     organization’s contracts, acts or omissions.</p>
                 <div className="flex flex-row gap-12">
                     <a href="https://www.instagram.com/hoosrunning/">
-                        <img src='public/assets/instagram.svg'
+                        <img src='assets/instagram.svg'
                         />
                     </a>
                     <a href="https://www.youtube.com/@hoosrunning">
-                        <img src='public/assets/youtube.svg'
+                        <img src='assets/youtube.svg'
                             />
                     </a>
                 </div>
