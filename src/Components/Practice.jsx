@@ -3,7 +3,7 @@ function Practice() {
     return (
         <div id="practice" className="relative w-screen">
             <img
-                src="src/assets/practice_splash.png"
+                src="public/assets/practice_splash.png"
                 alt="Banner"
                 className="w-screen h-screen object-cover"
             />
@@ -41,7 +41,7 @@ function Practice() {
                 }}
             >
                 <img
-                    src="src/assets/down_arrow.svg"
+                    src="public/assets/down_arrow.svg"
                     alt="Scroll down"
                     className="absolute bottom-4 left-1/2 -translate-x-1/2 w-20 h-20 animate-bounce cursor-pointer z-50 transition-transform duration-300 hover:scale-110"
                 />

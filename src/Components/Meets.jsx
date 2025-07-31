@@ -4,7 +4,7 @@ function Meets() {
             <div id="meets" className="relative w-screen h-screen">
                 {/* Background image */}
                 <img
-                    src="src/assets/splash_meet.png"
+                    src="public/assets/splash_meet.png"
                     alt="Banner"
                     className="w-full h-full object-cover"
                 />
@@ -39,7 +39,7 @@ function Meets() {
                     }}
                 >
                     <img
-                        src="src/assets/down_arrow.svg"
+                        src="public/assets/down_arrow.svg"
                         alt="Scroll down"
                         className="absolute bottom-4 left-1/2 -translate-x-1/2 w-20 h-20 animate-bounce cursor-pointer z-50 transition-transform duration-300 hover:scale-110"
                     />

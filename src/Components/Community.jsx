@@ -3,7 +3,7 @@ function Community() {
         <>
             <div id="community" className="relative w-screen">
                 <img
-                    src="src/assets/community_splash.png"
+                    src="public/assets/community_splash.png"
                     alt="Banner"
                     className="w-screen h-screen object-cover"
                 />
