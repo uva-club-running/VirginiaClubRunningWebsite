@@ -9,13 +9,13 @@ function Practice() {
             />
             <div className="absolute flex flex-col xl:flex-row justify:center xl:justify-start inset-0 items-center xl:items-start">
                 <div className="flex-row xl:ml-[2%] mt-5 xl:mt-[5%]">
-                    <h1 className="text-center text-white text-5xl xl:text-7xl font-bold font-franklin bg-opacity-50 top-4">
+                    <h1 className="text-center text-white text-3xl sm:text-5xl xl:text-7xl font-bold font-franklin bg-opacity-50 top-4">
                         Practices.
                     </h1>
-                    <h1 className="mt-3 text-center text-vaorange-500 text-3xl lg:text-4xl xl:text-5xl font-bodoni italic">Building
+                    <h1 className="mt-3 text-center text-vaorange-500 text-2xl sm:text-4xl lg:text-4xl xl:text-5xl font-bodoni italic">Building
                         character -
                         and muscles.</h1>
-                    <div className="text-center xl: text-start sm:text p-4 rounded mt-5 md:text-md lg:text-xl xl:text-2xl text-white font-franklin italic">
+                    <div className="text-center xl: text-start text-sm p-4 rounded mt-5 sm:text-md lg:text-xl xl:text-2xl text-white font-franklin italic">
                         <p>The club practices
                             Monday through
                             Thursday at
@@ -30,7 +30,7 @@ function Practice() {
                     </div>
                 </div>
                 <div className=" w-full h-full flex justify-center items-center">
-                    <iframe className="widget mb-25 w-100 h-60 lg:h-120 lg:w-70" allowTransparency frameBorder='0' scrolling='no'
+                    <iframe className="widget mb-25 sm:w-100 sm:h-60 lg:h-120 lg:w-70" allowTransparency frameBorder='0' scrolling='no'
                             src='https://www.strava.com/clubs/289895/latest-rides/4b7a2cbb9790cbe9ca665bbd27ac0e68ada5c4b5?show_rides=true'
                             ></iframe>
                 </div>

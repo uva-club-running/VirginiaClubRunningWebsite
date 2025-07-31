@@ -14,8 +14,8 @@ function Meets() {
                     {/* Left half */}
                     <div className="sm:h-full sm:w-1/2 flex justify-center items-start pt-20">
                         <div className="flex flex-col items-center px-8">
-                            <h1 className="text-franklin text-3xl sm:text-7xl text-white font-bold">Meets.</h1>
-                            <h2 className="text-center text-vaorange-500 text-2xl sm:text-5xl font-bodoni italic">
+                            <h1 className="text-franklin text-4xl sm:text-7xl text-white font-bold">Meets.</h1>
+                            <h2 className="text-center text-vaorange-500 text-3xl sm:text-5xl font-bodoni italic">
                                 Hoos gonna give it to ya.
                             </h2>
                         </div>
