@@ -1,11 +1,11 @@
 
 function NavBar() {
     return (
-        <div className="h-[8.5vh] bg-vablue-500 flex pl-6">
-            <div className="w-1/2 flex items-center">
+        <div className="h-[8.5vh] bg-vablue-500 flex items-center">
+            <div className="pl-6">
                 <img src="src/assets/logo.svg"></img>
             </div>
-            <div className="font-semibold w-1/2 flex items-center lg:text-xl gap-16 text-white font-franklin">
+            <div className="hidden lg:flex x w-full justify-end font-semibold items-center text-xl gap-16 text-white font-franklin mr-6">
                 <p>Training</p>
                 <p>Meets</p>
                 <p>Community</p>
