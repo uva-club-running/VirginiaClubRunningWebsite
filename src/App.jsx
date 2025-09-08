@@ -1,22 +1,14 @@
-import { useState } from 'react'
-import NavBar from "./Components/NavBar.jsx";
-import Splash from "./Components/Splash.jsx";
-import Practice from "./Components/Practice.jsx";
-import Meets from "./Components/Meets.jsx";
-import Community from "./Components/Community.jsx";
-import Footer from "./Components/Footer.jsx";
+import { Routes, Route } from "react-router-dom";
+import Home from "./Components/Home/Home";
+import Admin from "./Components/Admin/admin";
 
 function App() {
   return (
-    <>
-      <NavBar></NavBar>
-      <Splash></Splash>
-      <Practice></Practice>
-      <Meets></Meets>
-      <Community></Community>
-      <Footer></Footer>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/admin" element={<Admin />} />
+    </Routes>
+  );
 }
 
 export default App
