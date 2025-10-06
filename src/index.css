@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
-
 @theme {
-    --color-vablue-500: oklch(0.327 0.1196 257.73);
-    --color-vaorange-500: oklch(0.7017 0.179302 52.4871);
-    --color-darkblue-500: oklch(0.2007 0.0747 258.11);
-    --font-franklin: "Libre Franklin", sans-serif;
-    --font-bodoni: "Libre Bodoni";
+  --color-vablue-500: oklch(0.327 0.1196 257.73);
+  --color-vaorange-500: oklch(0.7017 0.179302 52.4871);
+  --color-darkblue-500: oklch(0.2007 0.0747 258.11);
+  --font-franklin: "Libre Franklin", sans-serif;
+  --font-bodoni: "Libre Bodoni";
 }
