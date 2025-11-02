@@ -22,7 +22,6 @@ export default function LoginPage({ onLogin }) {
         const errorMessage = error.message;
         alert(errorMessage);
       });
-    alert(user);
   };
 
   return (
