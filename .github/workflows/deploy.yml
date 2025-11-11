@@ -1,10 +1,10 @@
-
 on:
   push:
     branches:
       - master
+
 name: Deploy website on push
-# on push to `main` branch, deploy changes via FTP
+
 jobs:
   web-deploy:
     name: Deploy
@@ -12,14 +12,21 @@ jobs:
     steps:
       - name: Checkout latest code
         uses: actions/checkout@v2.3.2
+
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: latest
+
       - name: Install build dependencies
         run: npm install
+
       - name: Build website
         run: npm run build
+
+      - name: Copy .htaccess into dist
+        run: cp .htaccess dist/.htaccess
+
       - name: Deploy to SFTP server
         uses: wangyucode/sftp-upload-action@v2.0.4
         with:
@@ -30,4 +37,4 @@ jobs:
           forceUpload: false
           localDir: "./dist"
           remoteDir: "./virginia.clubrunning.org/"
-#pls work!
+          include: ".*,**/*"
