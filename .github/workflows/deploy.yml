@@ -40,7 +40,7 @@ name: Deploy via SFTP
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
   deploy:
     name: Deploy
