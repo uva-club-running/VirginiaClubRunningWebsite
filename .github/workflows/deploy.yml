@@ -30,3 +30,4 @@ jobs:
           forceUpload: false
           localDir: "./dist"
           remoteDir: "./virginia.clubrunning.org/"
+#pls work!
