@@ -28,13 +28,13 @@ export default function Contact() {
                 {
                     name: "Chase Cartwright",
                     pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
+                    email: "ufq8rq@virginia.edu",
                     image: "/assets/Profiles/chasecartwright.jpeg",
                 },
                 {
                     name: "Ella Harris",
                     pronouns: "(she/her)",
-                    email: "nuv4zk@virginia.edu",
+                    email: "ufq8rq@virginia.edu",
                     image: "/assets/Profiles/ellaharris.png",
                 },
             ],
@@ -46,7 +46,7 @@ export default function Contact() {
                 {
                     name: "Hunter Lutz",
                     pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
+                    email: "mty9zs@virginia.edu",
                     image: "/assets/Profiles/hunterlutz.jpeg",
                 },
             ],
@@ -58,25 +58,25 @@ export default function Contact() {
                 {
                     name: "Eli Cook",
                     pronouns: "(he/him)",
-                    email: "nuv4zk@virginia.edu",
+                    email: "ucg8nb@virginia.edu",
                     image: "/assets/Profiles/elicook.png",
                 },
                 {
                     name: "Beall Roberts",
                     pronouns: "(she/her)",
-                    email: "nuv4zk@virginia.edu",
+                    email: "mpu5rz@virginia.edu",
                     image: "/assets/Profiles/beallroberts.jpeg",
                 }
             ],
         },
         {
-            title: "Philanthropy Chair",
+            title: "philanthropy chair",
             subtitle: "for race and sprint training",
             people: [
                 {
                     name: "Nick Johnstone",
                     pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
+                    email: "czm4yv@virginia.edu",
                     image: "/assets/Profiles/nickjohnstone.jpeg",
                 },
             ],
@@ -88,13 +88,13 @@ export default function Contact() {
                 {
                     name: "Dana Johannsen",
                     pronouns: "(she/her)",
-                    email: "xsq2gy@virginia.edu",
+                    email: "gpk3qr@virginia.edu",
                     image: "/assets/Profiles/danajohannsen.jpeg",
                 },
                 {
                     name: "Tyler Stevens",
                     pronouns: "(he/him)",
-                    email: "nuv4zk@virginia.edu",
+                    email: "uvn9ur@virginia.edu",
                     image: "/assets/Profiles/tylerstevens.jpeg",
                 },
             ],
@@ -106,13 +106,13 @@ export default function Contact() {
                 {
                     name: "Jesse Smith",
                     pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
+                    email: "qsc7ay@virginia.edu",
                     image: "/assets/Profiles/jesse_smith.jpg",
                 },
                 {
                     name: "Jackie Janicki",
                     pronouns: "(she/her)",
-                    email: "nuv4zk@virginia.edu",
+                    email: "fcb2ck@virginia.edu",
                     image: "/assets/Profiles/jackiejanicki.jpeg",
                 },
             ],
@@ -124,7 +124,7 @@ export default function Contact() {
                 {
                     name: "Jenny Macler",
                     pronouns: "(she/her)",
-                    email: "xsq2gy@virginia.edu",
+                    email: "phu4ge@virginia.edu",
                     image: "/assets/Profiles/jennymacler.jpeg",
                 }
             ],
@@ -136,13 +136,13 @@ export default function Contact() {
                 {
                     name: "Kamren Reeves",
                     pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
+                    email: "tex9yr@virginia.edu",
                     image: "/assets/Profiles/kamrenreeves.jpeg",
                 },
                 {
                     name: "Hayley Sandler",
                     pronouns: "(she/her)",
-                    email: "nuv4zk@virginia.edu",
+                    email: "jmq3qd@virginia.edu",
                     image: "/assets/Profiles/hayleysandler.jpeg",
                 },
             ],
@@ -154,7 +154,7 @@ export default function Contact() {
                 {
                     name: "Urav Tanna",
                     pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
+                    email: "jnk3hc@virginia.edu",
                     image: "/assets/Profiles/uravtanna.jpeg",
                 }
             ],
