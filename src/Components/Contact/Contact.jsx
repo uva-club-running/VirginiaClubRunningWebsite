@@ -11,13 +11,13 @@ export default function Contact() {
                     name: "Will Muck",
                     pronouns: "(he/him)",
                     email: "xsq2gy@virginia.edu",
-                    image: "/assets/will_muck.png",
+                    image: "/assets/Profiles/willmuck.jpg",
                 },
                 {
                     name: "Mia Fanshaw",
                     pronouns: "(she/her)",
                     email: "nuv4zk@virginia.edu",
-                    image: "/assets/mia_fanshaw.png",
+                    image: "/assets/Profiles/miafanshaw.jpeg",
                 },
             ],
         },
@@ -26,16 +26,16 @@ export default function Contact() {
             subtitle: "for workout scheduling and inquiries",
             people: [
                 {
-                    name: "Will Muck",
+                    name: "Chase Cartwright",
                     pronouns: "(he/him)",
                     email: "xsq2gy@virginia.edu",
-                    image: "/assets/will_muck.png",
+                    image: "/assets/Profiles/chasecartwright.jpeg",
                 },
                 {
-                    name: "Mia Fanshaw",
+                    name: "Ella Harris",
                     pronouns: "(she/her)",
                     email: "nuv4zk@virginia.edu",
-                    image: "/assets/mia_fanshaw.png",
+                    image: "/assets/Profiles/ellaharris.png",
                 },
             ],
         },
@@ -44,10 +44,10 @@ export default function Contact() {
             subtitle: "for race and sprint training",
             people: [
                 {
-                    name: "Will Muck",
+                    name: "Hunter Lutz",
                     pronouns: "(he/him)",
                     email: "xsq2gy@virginia.edu",
-                    image: "/assets/will_muck.png",
+                    image: "/assets/Profiles/hunterlutz.jpeg",
                 },
             ],
         },
@@ -56,10 +56,28 @@ export default function Contact() {
             subtitle: "for information about meets and events",
             people: [
                 {
-                    name: "Mia Fanshaw",
+                    name: "Eli Cook",
+                    pronouns: "(he/him)",
+                    email: "nuv4zk@virginia.edu",
+                    image: "/assets/Profiles/elicook.png",
+                },
+                {
+                    name: "Beall Roberts",
                     pronouns: "(she/her)",
                     email: "nuv4zk@virginia.edu",
-                    image: "/assets/mia_fanshaw.png",
+                    image: "/assets/Profiles/beallroberts.jpeg",
+                }
+            ],
+        },
+        {
+            title: "Philanthropy Chair",
+            subtitle: "for race and sprint training",
+            people: [
+                {
+                    name: "Nick Johnstone",
+                    pronouns: "(he/him)",
+                    email: "xsq2gy@virginia.edu",
+                    image: "/assets/Profiles/nickjohnstone.jpeg",
                 },
             ],
         },
@@ -68,16 +86,16 @@ export default function Contact() {
             subtitle: "for questions about club socials",
             people: [
                 {
-                    name: "Will Muck",
-                    pronouns: "(he/him)",
+                    name: "Dana Johannsen",
+                    pronouns: "(she/her)",
                     email: "xsq2gy@virginia.edu",
-                    image: "/assets/will_muck.png",
+                    image: "/assets/Profiles/danajohannsen.jpeg",
                 },
                 {
-                    name: "Mia Fanshaw",
-                    pronouns: "(she/her)",
+                    name: "Tyler Stevens",
+                    pronouns: "(he/him)",
                     email: "nuv4zk@virginia.edu",
-                    image: "/assets/mia_fanshaw.png",
+                    image: "/assets/Profiles/tylerstevens.jpeg",
                 },
             ],
         },
@@ -86,16 +104,16 @@ export default function Contact() {
             subtitle: "for leadership and general inquiries",
             people: [
                 {
-                    name: "Will Muck",
+                    name: "Jesse Smith",
                     pronouns: "(he/him)",
                     email: "xsq2gy@virginia.edu",
-                    image: "/assets/will_muck.png",
+                    image: "/assets/Profiles/jesse_smith.jpg",
                 },
                 {
-                    name: "Mia Fanshaw",
+                    name: "Jackie Janicki",
                     pronouns: "(she/her)",
                     email: "nuv4zk@virginia.edu",
-                    image: "/assets/mia_fanshaw.png",
+                    image: "/assets/Profiles/jackiejanicki.jpeg",
                 },
             ],
         },
@@ -104,17 +122,11 @@ export default function Contact() {
             subtitle: "for leadership and general inquiries",
             people: [
                 {
-                    name: "Will Muck",
-                    pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
-                    image: "/assets/will_muck.png",
-                },
-                {
-                    name: "Mia Fanshaw",
+                    name: "Jenny Macler",
                     pronouns: "(she/her)",
-                    email: "nuv4zk@virginia.edu",
-                    image: "/assets/mia_fanshaw.png",
-                },
+                    email: "xsq2gy@virginia.edu",
+                    image: "/assets/Profiles/jennymacler.jpeg",
+                }
             ],
         },
         {
@@ -122,16 +134,16 @@ export default function Contact() {
             subtitle: "for leadership and general inquiries",
             people: [
                 {
-                    name: "Will Muck",
+                    name: "Kamren Reeves",
                     pronouns: "(he/him)",
                     email: "xsq2gy@virginia.edu",
-                    image: "/assets/will_muck.png",
+                    image: "/assets/Profiles/kamrenreeves.jpeg",
                 },
                 {
-                    name: "Mia Fanshaw",
+                    name: "Hayley Sandler",
                     pronouns: "(she/her)",
                     email: "nuv4zk@virginia.edu",
-                    image: "/assets/mia_fanshaw.png",
+                    image: "/assets/Profiles/hayleysandler.jpeg",
                 },
             ],
         },
@@ -140,23 +152,25 @@ export default function Contact() {
             subtitle: "for leadership and general inquiries",
             people: [
                 {
-                    name: "Will Muck",
+                    name: "Urav Tanna",
                     pronouns: "(he/him)",
                     email: "xsq2gy@virginia.edu",
-                    image: "/assets/will_muck.png",
-                },
-                {
-                    name: "Mia Fanshaw",
-                    pronouns: "(she/her)",
-                    email: "nuv4zk@virginia.edu",
-                    image: "/assets/mia_fanshaw.png",
-                },
+                    image: "/assets/Profiles/uravtanna.jpeg",
+                }
             ],
         }
     ];
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: "#F9DCBF" }}>
+            <style> {/* legacy support :) */}
+                {` /
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            `}
+            </style>
             <NavBar />
 
             {/* Splash Section */}
@@ -203,7 +217,10 @@ export default function Contact() {
                                     <img
                                         src={person.image}
                                         alt={person.name}
-                                        className="w-56 h-56 object-cover rounded-full shadow-md"
+                                        className={`w-56 h-56 object-cover rounded-full shadow-md ${section.title.toLowerCase().includes("webmaster")
+                                            ? "hover:[animation:spin_25s_linear_infinite]"
+                                            : ""
+                                            }`}
                                     />
                                     <div>
                                         <h3 className="text-2xl font-bold font-franklin">
