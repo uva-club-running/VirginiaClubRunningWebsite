@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./Components/Home/Home";
-import Training from "./Components/Training/Training"
+import Join from "./Components/Join/Join"
 import Meets from "./Components/Meets/Meets"
 import Community from "./Components/Community/Community"
 import Philanthropy from "./Components/Philanthropy/Philanthropy"
@@ -14,7 +14,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/training" element={<Training />} />
+      <Route path="/training" element={<Join />} />
       <Route path="/meets" element={<Meets />} />
       <Route path="/community" element={<Community />} />
       <Route path="/philanthropy" element={<Philanthropy />} />

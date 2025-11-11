@@ -13,41 +13,62 @@ export default function Records() {
         const recordSnap = await getDocs(collection(db, "Records"));
         const records = [];
 
-        for (const recordDoc of recordSnap.docs) {
-          const data = recordDoc.data();
+        // --- 1. Gather all records and collect unique event IDs ---
+        const recordData = recordSnap.docs.map((docSnap) => ({
+          id: docSnap.id,
+          ...docSnap.data(),
+        }));
 
-          if (!data.event) continue;
-          const eventRef = doc(db, "Events", data.event);
-          const eventSnap = await getDoc(eventRef);
+        const uniqueEventIds = [
+          ...new Set(recordData.map((r) => r.eventId).filter(Boolean)),
+        ];
 
-          let eventType = "Unknown";
-          if (eventSnap.exists()) {
-            eventType = eventSnap.data().type || "Unknown";
-          }
+        // --- 2. Fetch all Events referenced by those IDs in parallel ---
+        const eventMap = {};
+        await Promise.all(
+          uniqueEventIds.map(async (eventId) => {
+            const eventRef = doc(db, "Events", eventId);
+            const eventSnap = await getDoc(eventRef);
+            if (eventSnap.exists()) {
+              eventMap[eventId] = eventSnap.data();
+            }
+          })
+        );
+
+        // --- 3. Merge record data with event info ---
+        for (const data of recordData) {
+          const eventData = eventMap[data.eventId];
+          if (!eventData) continue;
 
           records.push({
             ...data,
-            type: eventType,
+            event: eventData.name || "Unknown Event",
+            type: eventData.type || "Unknown",
           });
         }
 
-        // Group by type and then by event & category to pick lowest time
+        // --- 4. Group by type, then by event + category (keep most recent record) ---
         const grouped = records.reduce((acc, rec) => {
           if (!acc[rec.type]) acc[rec.type] = {};
 
           const eventKey = `${rec.event}_${rec.category}`;
-
+          
+          // Get timestamp in milliseconds for comparison
+          const recTimestamp = rec.dateAdded?.toMillis?.() || rec.dateAdded?.seconds * 1000 || 0;
+          const existingTimestamp = acc[rec.type][eventKey]?.dateAdded?.toMillis?.() || 
+                                   acc[rec.type][eventKey]?.dateAdded?.seconds * 1000 || 0;
+          
           if (
             !acc[rec.type][eventKey] ||
-            rec.time < acc[rec.type][eventKey].time
+            recTimestamp > existingTimestamp
           ) {
-            acc[rec.type][eventKey] = rec; // keep record with lowest time
+            acc[rec.type][eventKey] = rec;
           }
 
           return acc;
         }, {});
 
-        // Convert grouped object back to array per type
+        // --- 5. Convert grouped object to arrays per type ---
         const groupedByType = Object.fromEntries(
           Object.entries(grouped).map(([type, events]) => [
             type,
@@ -66,27 +87,95 @@ export default function Records() {
     fetchRecords();
   }, []);
 
-
+  // --- Helper to group by gender ---
   const groupRecordsByGender = (records) => {
-    const menRecords = records.filter((r) => r.category === "Men");
-    const womenRecords = records.filter((r) => r.category === "Women");
-    return { menRecords, womenRecords };
+    // Sort men's records alphabetically
+    const menRecords = records
+      .filter((r) => r.category === "Men")
+      .sort((a, b) => (a.event || "").localeCompare(b.event || ""));
+    
+    // Get all women's records
+    const allWomenRecords = records.filter((r) => r.category === "Women");
+    
+    // Create a map of women's records by event name for quick lookup
+    const womenMap = new Map();
+    allWomenRecords.forEach((r) => {
+      womenMap.set(r.event, r);
+    });
+    
+    // Get set of men's event names
+    const menEventNames = new Set(menRecords.map((r) => r.event));
+    
+    // Build ordered women's records: first match men's order, then add women's-only at end
+    const orderedWomenRecords = [];
+    
+    // Add women's records matching men's events in men's order
+    menRecords.forEach((menRecord) => {
+      const womenRecord = womenMap.get(menRecord.event);
+      if (womenRecord) {
+        orderedWomenRecords.push(womenRecord);
+      }
+    });
+    
+    // Add women's-only events at the end, sorted alphabetically
+    const womenOnlyRecords = allWomenRecords
+      .filter((r) => !menEventNames.has(r.event))
+      .sort((a, b) => (a.event || "").localeCompare(b.event || ""));
+    
+    orderedWomenRecords.push(...womenOnlyRecords);
+    
+    return { menRecords, womenRecords: orderedWomenRecords };
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center text-lg font-semibold">
-        Loading records...
+      <div className="min-h-screen flex justify-center items-center">
+        <div className="w-16 h-16 border-4 border-gray-300 border-t-vablue-500 rounded-full animate-spin"></div>
       </div>
     );
   }
 
+  // Define the order for event types
+  const typeOrder = ["Cross Country", "Track", "Field", "Road Races", "All-Americans", "Club Elections"];
+  
+  // Sort recordsByType entries by the defined order
+  const sortedRecordsByType = Object.entries(recordsByType).sort(([typeA], [typeB]) => {
+    const indexA = typeOrder.indexOf(typeA);
+    const indexB = typeOrder.indexOf(typeB);
+    // If type not in order list, put it at the end
+    const orderA = indexA === -1 ? Infinity : indexA;
+    const orderB = indexB === -1 ? Infinity : indexB;
+    return orderA - orderB;
+  });
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-white to-stone-100">
+    <div className="min-h-screen" style={{ backgroundColor: '#F9DCBF' }}>
       <NavBar />
+      
+      {/* Splash Section - Fixed Background */}
+      <div 
+        className="relative w-screen"
+        style={{ 
+          height: '70vh',
+          backgroundImage: 'url(assets/landing_splash.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="absolute inset-0 flex items-center justify-center flex-col">
+          <h1 className="text-white text-5xl md:text-7xl lg:text-9xl font-bold font-franklin">
+            Records
+          </h1>
+          <h2 className="mt-3 text-center text-vaorange-500 text-3xl md:text-5xl lg:text-7xl font-bodoni italic">
+            Hoos represent.
+          </h2>
+        </div>
+      </div>
 
       <div className="max-w-6xl mx-auto px-8 py-20">
-        {Object.entries(recordsByType).map(([type, records], index) => {
+        {sortedRecordsByType.map(([type, records], index) => {
           const { menRecords, womenRecords } = groupRecordsByGender(records);
 
           return (
@@ -114,23 +203,7 @@ export default function Records() {
                     </p>
                   ) : (
                     menRecords.map((record, idx) => (
-                      <div
-                        key={idx}
-                        className="group bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white/20"
-                      >
-                        <div className="space-y-2">
-                          <h4 className="text-xl font-bold font-franklin text-gray-900 group-hover:text-vablue-500 transition-colors duration-200">
-                            {record.event}
-                          </h4>
-                          <p className="text-lg font-franklin italic text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
-                            {record.name}
-                          </p>
-                          <p className="text-2xl font-bold font-franklin text-vaorange-500 group-hover:text-vablue-500 transition-colors duration-200">
-                            {formatTime(record.time)}
-                          </p>
-                          <p className="text-gray-600">{record.year}</p>
-                        </div>
-                      </div>
+                      <RecordCard key={idx} record={record} color="men" />
                     ))
                   )}
                 </div>
@@ -148,40 +221,15 @@ export default function Records() {
                     </p>
                   ) : (
                     womenRecords.map((record, idx) => (
-                      <div
-                        key={idx}
-                        className="group bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white/20"
-                      >
-                        <div className="space-y-2">
-                          <h4 className="text-xl font-bold font-franklin text-gray-900 group-hover:text-vaorange-500 transition-colors duration-200">
-                            {record.event}
-                          </h4>
-                          <p className="text-lg font-franklin italic text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
-                            {record.name}
-                          </p>
-                          <p className="text-2xl font-bold font-franklin text-vablue-500 group-hover:text-vaorange-500 transition-colors duration-200">
-                            {formatTime(record.time)}
-                          </p>
-                          <p className="text-gray-600">{record.year}</p>
-                        </div>
-                      </div>
+                      <RecordCard key={idx} record={record} color="women" />
                     ))
                   )}
                 </div>
               </div>
 
               {/* Divider */}
-              {index < Object.entries(recordsByType).length - 1 && (
-                <div className="relative mt-20">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-                  </div>
-                  <div className="relative flex justify-center">
-                    <div className="bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-                      <div className="w-2 h-2 bg-vaorange-500 rounded-full"></div>
-                    </div>
-                  </div>
-                </div>
+              {index < sortedRecordsByType.length - 1 && (
+                <Divider />
               )}
             </div>
           );
@@ -191,13 +239,54 @@ export default function Records() {
   );
 }
 
-function formatTime(ms) {
-  if (typeof ms !== "number" || isNaN(ms)) return ms;
-  const totalSeconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const millis = ms % 1000;
-  return `${minutes}:${seconds.toString().padStart(2, "0")}.${Math.floor(
-    millis / 100
-  )}`;
+function RecordCard({ record, color }) {
+  const isMen = color === "men";
+  return (
+    <div
+      className="group bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/20"
+    >
+      <div className="space-y-2">
+        <h4
+          className={`text-xl font-bold font-franklin text-gray-900 transition-colors duration-200 ${isMen
+              ? "group-hover:text-vablue-500"
+              : "group-hover:text-vaorange-500"
+            }`}
+        >
+          {record.event}
+        </h4>
+        <p className="text-lg font-franklin italic text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
+          {record.name}
+        </p>
+        <p
+          className={`text-2xl font-bold font-franklin transition-colors duration-200 ${isMen
+              ? "text-vaorange-500 group-hover:text-vablue-500"
+              : "text-vablue-500 group-hover:text-vaorange-500"
+            }`}
+        >
+          {formatTime(record.time)}
+        </p>
+        <p className="text-gray-600">{record.year}</p>
+      </div>
+    </div>
+  );
+}
+
+function Divider() {
+  return (
+    <div className="relative mt-20">
+      <div className="absolute inset-0 flex items-center">
+        <div className="w-full border-t border-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+      </div>
+      <div className="relative flex justify-center">
+        <div className="bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+          <div className="w-2 h-2 bg-vaorange-500 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Format time string for display - just return the stored string
+function formatTime(timeStr) {
+  return timeStr || "";
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getFirestore, collection, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, query, where, serverTimestamp, Timestamp } from "firebase/firestore";
 
 const db = getFirestore();
 
@@ -30,7 +30,12 @@ export default function AdminDashboard() {
 
       {/* Forms */}
       <div className="max-w-2xl mx-auto space-y-10">
-        {activeTab === "meets" && <MeetForm />}
+        {activeTab === "meets" && (
+          <>
+            <MeetForm />
+            <UpdateMeetResults />
+          </>
+        )}
         {activeTab === "records" && <RecordSection />}
         {activeTab === "philanthropy" && <PhilanthropyForm />}
       </div>
@@ -48,21 +53,99 @@ function Card({ title, children }) {
 }
 
 function MeetForm() {
+  const [meet, setMeet] = useState({
+    name: "",
+    date: "",
+    location: "",
+    results: "",
+    year: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setMeet((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!meet.name.trim() || !meet.date || !meet.location.trim()) {
+      alert("Please fill in meet name, date, and location.");
+      return;
+    }
+
+    try {
+      // Convert date string to Firestore Timestamp
+      const dateObj = new Date(meet.date);
+      // Set to midnight UTC to avoid timezone issues
+      dateObj.setHours(0, 0, 0, 0);
+      const timestamp = Timestamp.fromDate(dateObj);
+
+      const meetData = {
+        name: meet.name.trim(),
+        date: timestamp,
+        location: meet.location.trim(),
+        dateAdded: serverTimestamp(),
+        year: dateObj.getFullYear()
+      };
+
+      // Only add results field if it has a value
+      if (meet.results.trim()) {
+        meetData.results = meet.results.trim();
+      }
+
+      await addMeet(meetData);
+
+      // Reset form
+      setMeet({
+        name: "",
+        date: "",
+        location: "",
+        results: "",
+      });
+
+      alert("Meet added successfully!");
+    } catch (error) {
+      console.error("Error adding meet:", error);
+      alert("Error adding meet. Please try again.");
+    }
+  };
+
   return (
     <Card title="Add Meet">
-      <form className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
+          name="name"
+          value={meet.name}
+          onChange={handleChange}
           placeholder="Meet Name"
           className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+          required
         />
         <input
           type="date"
+          name="date"
+          value={meet.date}
+          onChange={handleChange}
           className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white focus:ring-2 focus:ring-vaorange-500"
+          required
         />
         <input
           type="text"
+          name="location"
+          value={meet.location}
+          onChange={handleChange}
           placeholder="Location"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+          required
+        />
+        <input
+          type="url"
+          name="results"
+          value={meet.results}
+          onChange={handleChange}
+          placeholder="Results URL (optional)"
           className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
         />
         <button
@@ -76,34 +159,142 @@ function MeetForm() {
   );
 }
 
-function hhmmssToMillis(hhmmss) {
-  const [hours, minutes, seconds] = hhmmss.split(":").map(Number);
-  return ((hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0)) * 1000;
+function UpdateMeetResults() {
+  const [meets, setMeets] = useState([]);
+  const [selectedMeetName, setSelectedMeetName] = useState("");
+  const [resultsUrl, setResultsUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchMeets = async () => {
+      try {
+        const meetsData = await getAllMeets();
+
+        // Sort by year (descending) and then by date (ascending)
+        meetsData.sort((a, b) => {
+          const yearA = a.year || 0;
+          const yearB = b.year || 0;
+          if (yearA !== yearB) return yearB - yearA;
+          const dateA = a.date?.toDate ? a.date.toDate() : new Date(a.date || 0);
+          const dateB = b.date?.toDate ? b.date.toDate() : new Date(b.date || 0);
+          return dateA - dateB;
+        });
+
+        setMeets(meetsData);
+      } catch (error) {
+        console.error("Error fetching meets:", error);
+      }
+    };
+
+    fetchMeets();
+  }, []);
+
+  // Group meets by year
+  const groupedMeets = meets.reduce((groups, meet) => {
+    const year = meet.year || "Unknown Year";
+    if (!groups[year]) groups[year] = [];
+    groups[year].push(meet);
+    return groups;
+  }, {});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!selectedMeetName.trim()) {
+      alert("Please select a meet.");
+      return;
+    }
+
+    if (!resultsUrl.trim()) {
+      alert("Please enter a results URL.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await updateMeetResults(selectedMeetName, resultsUrl);
+      setResultsUrl("");
+      setSelectedMeetName("");
+      alert("Meet results updated successfully!");
+
+      // Refresh meets after update
+      const meetsData = await getAllMeets();
+      setMeets(meetsData);
+    } catch (error) {
+      console.error("Error updating meet results:", error);
+      if (error.message === "Meet not found") {
+        alert("Meet not found. Please check the meet name.");
+      } else {
+        alert("Error updating meet results. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Card title="Update Meet Results">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <select
+          value={selectedMeetName}
+          onChange={(e) => setSelectedMeetName(e.target.value)}
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white focus:ring-2 focus:ring-vaorange-500"
+          required
+        >
+          <option value="">Select a Meet</option>
+          {Object.entries(groupedMeets).map(([year, yearMeets]) => (
+            <optgroup key={year} label={year}>
+              {yearMeets.map((meet) => (
+                <option key={meet.id} value={meet.name}>
+                  {meet.name} — {meet.location || "TBD"}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+
+        <input
+          type="url"
+          value={resultsUrl}
+          onChange={(e) => setResultsUrl(e.target.value)}
+          placeholder="Results URL"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+          required
+        />
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-lg bg-vaorange-500 py-2 text-darkblue font-bold hover:bg-orange-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? "Updating..." : "Update Results"}
+        </button>
+      </form>
+    </Card>
+  );
 }
+
 
 // --- Firestore Helpers ---
 async function getUniqueEvents() {
   const snapshot = await getDocs(collection(db, "Events"));
   const events = [];
-
-  snapshot.forEach((doc) => {
-    const data = doc.data();
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
     if (data.name && data.type) {
-      events.push({ name: data.name, type: data.type });
+      events.push({ id: docSnap.id, name: data.name, type: data.type });
     }
   });
-
   return events;
 }
 
 async function addEventToDB(eventName, eventType) {
   try {
-    const eventRef = doc(collection(db, "Events"), eventName); // use eventName as ID
-    await setDoc(eventRef, {
+    const docRef = await addDoc(collection(db, "Events"), {
       name: eventName,
       type: eventType,
     });
-    return eventRef.id; // returns eventName
+    return docRef.id;
   } catch (error) {
     console.error("Error adding event:", error);
     throw error;
@@ -120,11 +311,74 @@ async function addRecord(recordData) {
   }
 }
 
+async function addMeet(meetData) {
+  try {
+    const docRef = await addDoc(collection(db, "Meets"), meetData);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error adding meet:", error);
+    throw error;
+  }
+}
+
+async function addPhilanEvent(philanEventData) {
+  try {
+    const docRef = await addDoc(collection(db, "Philanthropy"), philanEventData);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error adding event:", error);
+    throw error;
+  }
+}
+
+async function updateMeetResults(meetName, resultsUrl) {
+  try {
+    // Find the meet by name
+    const meetsRef = collection(db, "Meets");
+    const q = query(meetsRef, where("name", "==", meetName));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      throw new Error("Meet not found");
+    }
+
+    // Update all matches (in case there are duplicates, though there shouldn't be)
+    const updatePromises = [];
+    querySnapshot.forEach((docSnapshot) => {
+      const meetRef = doc(db, "Meets", docSnapshot.id);
+      updatePromises.push(updateDoc(meetRef, { results: resultsUrl.trim() }));
+    });
+
+    await Promise.all(updatePromises);
+    return querySnapshot.docs[0].id;
+  } catch (error) {
+    console.error("Error updating meet results:", error);
+    throw error;
+  }
+}
+
+async function getAllMeets() {
+  try {
+    const snapshot = await getDocs(collection(db, "Meets"));
+    const meets = [];
+    snapshot.forEach((docSnap) => {
+      meets.push({
+        id: docSnap.id,
+        ...docSnap.data(),
+      });
+    });
+    return meets;
+  } catch (error) {
+    console.error("Error fetching meets:", error);
+    throw error;
+  }
+}
+
 // --- Record Section ---
 function RecordSection() {
+  const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState("");
   const [eventType, setEventType] = useState("");
-  const [events, setEvents] = useState([]);
   const [record, setRecord] = useState({
     event: "",
     time: "",
@@ -133,42 +387,44 @@ function RecordSection() {
     year: 2025,
   });
 
+  // Fetch all events
   useEffect(() => {
     getUniqueEvents().then(setEvents);
   }, []);
 
-  // Submit a new event to Firestore
-  const handleEventSubmit = async (e) => {
+  // Group events by type for dropdown display
+  const groupedEvents = events.reduce((groups, event) => {
+    const { type } = event;
+    if (!groups[type]) groups[type] = [];
+    groups[type].push(event);
+    return groups;
+  }, {});
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRecord((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Submit new record
+  const handleRecordSubmit = async (e) => {
     e.preventDefault();
-    if (!newEvent.trim() || !eventType.trim()) {
-      alert("Please enter both an event name and type.");
+
+    if (!record.event) {
+      alert("Please select an event.");
       return;
     }
 
-    const newEventObj = { name: newEvent, type: eventType };
-    setEvents((prev) => [...prev, newEventObj]);
-    await addEventToDB(newEvent, eventType);
-    setNewEvent("");
-    setEventType("");
-  };
-
-  // Handle Record inputs
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setRecord((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
-  // Submit record
-  const handleRecordSubmit = async (e) => {
-    e.preventDefault();
     const toPersist = {
-      ...record,
-      time: hhmmssToMillis(record.time),
+      name: record.name,
+      eventId: record.event, // store only the event ID
+      category: record.category,
       year: parseInt(record.year, 10),
+      time: record.time, // store time as string
+      dateAdded: serverTimestamp(), // timestamp when record was added
     };
+
+    await addRecord(toPersist);
 
     setRecord({
       event: "",
@@ -178,16 +434,21 @@ function RecordSection() {
       year: 2025,
     });
 
-    await addRecord(toPersist);
+    alert("Record added successfully!");
   };
 
-  // Group events by type
-  const groupedEvents = events.reduce((groups, event) => {
-    const { type } = event;
-    if (!groups[type]) groups[type] = [];
-    groups[type].push(event.name);
-    return groups;
-  }, {});
+  // Add a new event to Firestore
+  const handleEventSubmit = async (e) => {
+    e.preventDefault();
+    if (!newEvent.trim() || !eventType.trim()) {
+      alert("Please enter both an event name and type.");
+      return;
+    }
+    const newEventObj = { id: await addEventToDB(newEvent, eventType), name: newEvent, type: eventType };
+    setEvents((prev) => [...prev, newEventObj]);
+    setNewEvent("");
+    setEventType("");
+  };
 
   return (
     <div className="space-y-10">
@@ -210,10 +471,14 @@ function RecordSection() {
             className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white focus:ring-2 focus:ring-vaorange-500"
           >
             <option value="">Select Event</option>
-            {events.map((event, idx) => (
-              <option key={idx} value={event.name}>
-                {event.name}
-              </option>
+            {Object.entries(groupedEvents).map(([type, eventList]) => (
+              <optgroup key={type} label={type}>
+                {eventList.map((event) => (
+                  <option key={event.id} value={event.id}>
+                    {event.name}
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </select>
 
@@ -275,6 +540,7 @@ function RecordSection() {
             <option value="">Select Type</option>
             <option value="Cross Country">Cross Country</option>
             <option value="Track">Track</option>
+            <option value="Field">Field</option>
             <option value="Road Races">Road Races</option>
             <option value="All-Americans">All-Americans</option>
             <option value="Club Elections">Club Elections</option>
@@ -301,8 +567,8 @@ function RecordSection() {
               <div key={type} className="mb-4">
                 <h4 className="text-vaorange-400 font-semibold">{type}</h4>
                 <ul className="list-disc list-inside ml-4 text-white">
-                  {eventList.map((name, idx) => (
-                    <li key={idx}>{name}</li>
+                  {eventList.map((event) => (
+                    <li key={event.id}>{event.name}</li>
                   ))}
                 </ul>
               </div>
@@ -316,21 +582,120 @@ function RecordSection() {
 
 // --- Philanthropy Form ---
 function PhilanthropyForm() {
+  const [philanEvent, setPhilanEvent] = useState({
+    name: "",
+    date: "",
+    partner_org: "",
+    description: "",
+    link: "",
+    flyer_link: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPhilanEvent((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!philanEvent.name.trim() || !philanEvent.date) {
+      alert("Please fill in event name and date.");
+      return;
+    }
+
+    try {
+      // Convert date string to Firestore Timestamp
+      const dateObj = new Date(philanEvent.date);
+      // Set to midnight UTC to avoid timezone issues
+      dateObj.setHours(0, 0, 0, 0);
+      const timestamp = Timestamp.fromDate(dateObj);
+
+      const philanEventData = {
+        name: philanEvent.name.trim(),
+        date: timestamp,
+      };
+
+      if (philanEvent.partner_org.trim()) {
+        philanEventData.partner_org = philanEvent.partner_org.trim();
+      }
+      if (philanEvent.description.trim()) {
+        philanEventData.description = philanEvent.description.trim();
+      }
+      if (philanEvent.link.trim()) {
+        philanEventData.link = philanEvent.link.trim();
+      }
+      if (philanEvent.flyer_link.trim()) {
+        philanEventData.flyer_link = philanEvent.flyer_link.trim();
+      }
+
+      await addPhilanEvent(philanEventData);
+
+      // Reset form
+      setPhilanEvent({
+        name: "",
+        date: "",
+        partner_org: "",
+        description: "",
+        link: "",
+        flyer_link: ""
+      });
+
+      alert("Meet added successfully!");
+    } catch (error) {
+      console.error("Error adding meet:", error);
+      alert("Error adding meet. Please try again.");
+    }
+  }
+
   return (
     <Card title="Add Philanthropy Event">
-      <form className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
+          name="name"
+          value={philanEvent.name}
+          onChange={handleChange}
           placeholder="Event Name"
           className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
         />
         <input
           type="date"
+          name="date"
+          value={philanEvent.date}
+          onChange={handleChange}
           className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white focus:ring-2 focus:ring-vaorange-500"
         />
         <input
           type="text"
+          name="partner_org"
+          value={philanEvent.partner_org}
+          onChange={handleChange}
           placeholder="Partner Organization"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+        />
+        <input
+          type="text"
+          name="description"
+          value={philanEvent.description}
+          onChange={handleChange}
+          placeholder="Description"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+        />
+        <input
+          type="url"
+          name="link"
+          value={philanEvent.link}
+          onChange={handleChange}
+          placeholder="Link"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+        />
+        <input
+          type="url"
+          name="flyer_link"
+          value={philanEvent.flyer_link}
+          onChange={handleChange}
+          placeholder="Flyer Link (optional)"
           className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
         />
         <button

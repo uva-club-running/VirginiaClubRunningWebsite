@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 function NavBar() {
   const navigate = useNavigate();
-  const goToTraining = () => {
+  const goToJoin = () => {
     navigate("/training");
   };
   const goToMeets = () => {
@@ -26,15 +26,15 @@ function NavBar() {
   return (
     <div className="h-[8.5vh] bg-vablue-500 flex items-center">
       <div className="pl-6">
-        <img 
-          src="assets/logo.svg" 
-          alt="Virginia Club Running Logo" 
+        <img
+          src="assets/logo.svg"
+          alt="Virginia Club Running Logo"
           className="cursor-pointer hover:opacity-80 transition-opacity duration-200"
           onClick={goToHome}
         />
       </div>
       <div className="hidden lg:flex x w-full justify-end font-semibold items-center text-xl gap-16 text-white font-franklin mr-6">
-        <button className="cursor-pointer" onClick={goToTraining}>Training</button>
+        <button className="cursor-pointer" onClick={goToJoin}>Join</button>
         <button className="cursor-pointer" onClick={goToMeets}>Meets</button>
         <button className="cursor-pointer" onClick={goToCommunity}>Community</button>
         <button className="cursor-pointer" onClick={goToPhilanthropy}>Philanthropy</button>
