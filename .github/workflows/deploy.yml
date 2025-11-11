@@ -65,9 +65,6 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Copy .htaccess into dist
-        run: cp .htaccess dist/.htaccess
-
       - name: Deploy files via SFTP
         uses: pressidium/lftp-mirror-action@v1
         with:
