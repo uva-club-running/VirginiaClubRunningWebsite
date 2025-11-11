@@ -37,55 +37,35 @@
 #           remote_path: "./virginia.clubrunning.org"
 #           delete: false
 name: Deploy via SFTP
-
 on:
   push:
     branches:
-      - master
-
+      - main
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-
+    if: github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build site
-        run: npm run build
-
       - name: Deploy files via SFTP
         uses: pressidium/lftp-mirror-action@v1
         with:
+          # SFTP credentials
           host: "virginia.clubrunning.org"
           port: 22
           user: "virginia_run"
           pass: ${{ secrets.FTP_PASSWORD }}
-
-          # Upload settings
+          # lftp settings
           onlyNewer: true
           settings: 'sftp:auto-confirm=yes'
-
-          # Deploy built files
+          # Mirror command options
           localDir: './dist'
-          remoteDir: './virginia.clubrunning.org/'
-
-          # Mirror direction: local → remote
+          remoteDir:  './virginia.clubrunning.org'
           reverse: true
-
-          # Don’t skip dotfiles (important for .htaccess)
-          options: '--verbose --include-glob=.*'
-
-          # Optional ignore file (omit if not needed)
-          # ignoreFile: '.lftp_ignore'
+          ignoreFile: '.lftp_ignore'
+          options: '--verbose'
