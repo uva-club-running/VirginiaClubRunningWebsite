@@ -27,14 +27,12 @@ jobs:
       - name: Copy .htaccess into dist
         run: cp .htaccess dist/.htaccess
 
-      - name: Deploy to SFTP server
-        uses: wangyucode/sftp-upload-action@v2.0.4
+      - name: Deploy to DreamHost via SFTP
+        uses: pressidium/sftp-deploy-action@v1.0.4
         with:
-          host: "virginia.clubrunning.org"
-          port: 22
+          server: "virginia.clubrunning.org"
           username: "virginia_run"
           password: ${{ secrets.FTP_PASSWORD }}
-          forceUpload: false
-          localDir: "./dist"
-          remoteDir: "./virginia.clubrunning.org/"
-          include: ".*,**/*"
+          local_path: "./dist"
+          remote_path: "./virginia.clubrunning.org"
+          delete: false
