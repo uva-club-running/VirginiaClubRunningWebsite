@@ -1,5 +1,15 @@
+# Force DreamHost to serve static files, not Node/Passenger
+SetEnv PASSENGER_APP_ENV none
+
+# Enable rewriting
 Options -MultiViews
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [L]
+RewriteBase /
+
+# If file or directory exists, serve it
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Otherwise, serve index.html (for SPA routing)
+RewriteRule ^ index.html [L,QSA]
