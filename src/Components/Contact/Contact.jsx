@@ -23,7 +23,7 @@ export default function Contact() {
         },
         {
             title: "workout coordinators",
-            subtitle: "for workout scheduling and inquiries",
+            subtitle: "for questions regarding training",
             people: [
                 {
                     name: "Chase Cartwright",
@@ -41,7 +41,7 @@ export default function Contact() {
         },
         {
             title: "sprint coordinator",
-            subtitle: "for race and sprint training",
+            subtitle: "for questions regarding sprint training",
             people: [
                 {
                     name: "Hunter Lutz",
@@ -53,7 +53,7 @@ export default function Contact() {
         },
         {
             title: "meet coordinators",
-            subtitle: "for information about meets and events",
+            subtitle: "for questions concerning the Cavalier Invitational",
             people: [
                 {
                     name: "Eli Cook",
@@ -71,7 +71,7 @@ export default function Contact() {
         },
         {
             title: "philanthropy chair",
-            subtitle: "for race and sprint training",
+            subtitle: "for questions concerning club fundraising and volunteering",
             people: [
                 {
                     name: "Nick Johnstone",
@@ -83,7 +83,7 @@ export default function Contact() {
         },
         {
             title: "social chairs",
-            subtitle: "for questions about club socials",
+            subtitle: "for questions concerning club social events",
             people: [
                 {
                     name: "Dana Johannsen",
@@ -101,7 +101,7 @@ export default function Contact() {
         },
         {
             title: "president and vice president",
-            subtitle: "for leadership and general inquiries",
+            subtitle: "for all other questions about the club",
             people: [
                 {
                     name: "Jesse Smith",
@@ -119,7 +119,7 @@ export default function Contact() {
         },
         {
             title: "treasurer",
-            subtitle: "for leadership and general inquiries",
+            subtitle: "for questions concerning club finances",
             people: [
                 {
                     name: "Jenny Macler",
@@ -131,7 +131,7 @@ export default function Contact() {
         },
         {
             title: "secretary and team relations chair",
-            subtitle: "for leadership and general inquiries",
+            subtitle: "for questions concerning the club's exec board and club social media",
             people: [
                 {
                     name: "Kamren Reeves",
@@ -149,7 +149,7 @@ export default function Contact() {
         },
         {
             title: "webmaster",
-            subtitle: "for leadership and general inquiries",
+            subtitle: "for questions concerning the website and ListServ",
             people: [
                 {
                     name: "Urav Tanna",
