@@ -14,7 +14,7 @@ export default function AdminDashboard() {
 
       {/* Tabs */}
       <div className="flex justify-center gap-4 mb-10">
-        {["meets", "records", "philanthropy"].map((tab) => (
+        {["meets", "records", "philanthropy", "All Americans"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -38,6 +38,7 @@ export default function AdminDashboard() {
         )}
         {activeTab === "records" && <RecordSection />}
         {activeTab === "philanthropy" && <PhilanthropyForm />}
+        {activeTab === "All Americans" && <AllAmericanForm />}
       </div>
     </div>
   );
@@ -374,6 +375,16 @@ async function getAllMeets() {
   }
 }
 
+async function addAllAmerican(allAmericanData) {
+  try {
+    const docRef = await addDoc(collection(db, "AllAmericans"), allAmericanData);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error adding All American:", error);
+    throw error;
+  }
+}
+
 // --- Record Section ---
 function RecordSection() {
   const [events, setEvents] = useState([]);
@@ -703,6 +714,126 @@ function PhilanthropyForm() {
           className="w-full rounded-lg bg-vaorange-500 py-2 text-darkblue font-bold hover:bg-orange-400 transition"
         >
           Add Event
+        </button>
+      </form>
+    </Card>
+  );
+}
+
+function AllAmericanForm() {
+  const [events, setEvents] = useState([]);
+  const [allAmerican, setAllAmerican] = useState({
+    name: "",
+    event: "",
+    time: "",
+    place: "",
+  });
+
+  useEffect(() => {
+    getUniqueEvents().then(setEvents);
+  }, []);
+
+  const groupedEvents = events.reduce((groups, event) => {
+    const { type } = event;
+    if (!groups[type]) groups[type] = [];
+    groups[type].push(event);
+    return groups;
+  }, {});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAllAmerican((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!allAmerican.name.trim() || !allAmerican.event) {
+      alert("Please fill in athlete name and event.");
+      return;
+    }
+
+    const allAmericanData = {
+      name: allAmerican.name.trim(),
+      eventId: allAmerican.event, // link to event
+      time: allAmerican.time.trim(),
+      place: parseInt(allAmerican.place, 10),
+      dateAdded: serverTimestamp(),
+    };
+
+    try {
+      await addAllAmerican(allAmericanData);
+
+      setAllAmerican({
+        name: "",
+        event: "",
+        time: "",
+        place: "",
+      });
+
+      alert("All American added successfully!");
+    } catch (error) {
+      console.error("Error adding All American:", error);
+      alert("Error adding All American. Please try again.");
+    }
+  };
+
+  return (
+    <Card title="Add All American">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          name="name"
+          type="text"
+          value={allAmerican.name}
+          onChange={handleChange}
+          placeholder="Athlete Name(s)"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+          required
+        />
+
+        <select
+          name="event"
+          value={allAmerican.event}
+          onChange={handleChange}
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white focus:ring-2 focus:ring-vaorange-500"
+          required
+        >
+          <option value="">Select Event</option>
+          {Object.entries(groupedEvents).map(([type, eventList]) => (
+            <optgroup key={type} label={type}>
+              {eventList.map((event) => (
+                <option key={event.id} value={event.id}>
+                  {event.name}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+
+        <input
+          name="time"
+          type="text"
+          value={allAmerican.time}
+          onChange={handleChange}
+          placeholder="Time (e.g. 00:15:32)"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+        />
+
+        <input
+          name="place"
+          type="number"
+          value={allAmerican.place}
+          onChange={handleChange}
+          placeholder="Place (e.g. 1)"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+          required
+        />
+
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-vaorange-500 py-2 text-darkblue font-bold hover:bg-orange-400 transition"
+        >
+          Add All American
         </button>
       </form>
     </Card>
