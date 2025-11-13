@@ -82,7 +82,7 @@ Changes are automatically [deployed](#deploying) on push.
 ### Hosting background
 We use NIRCA's [free web hosting service](https://clubrunning.org/web.php) for member organizations.
 
-We do not have direct control over the web host. Insetad, NIRCA gives us a username/password to login to an SFTP server. (Webmasters: the transition document has the login, reach out to your predecessor if it cannot be found there)
+We do not have direct control over the web host. Instead, NIRCA gives us a username/password to login to an SFTP server. (Webmasters: the transition document has the login, reach out to your predecessor if it cannot be found there)
 
 ### GitHub Actions
 
