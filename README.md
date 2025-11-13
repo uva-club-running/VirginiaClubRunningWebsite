@@ -66,7 +66,7 @@ The build output is placed in `./dist/`.
 ## Publishing changes
 1. Add and commit your changes ([guide](https://github.com/git-guides#make-change-and-make-a-commit)):
 ```bash
-# assuming you are on the `master` branch, a descriptive name commit message is prefered!
+# assuming you are on the `master` branch, a descriptive name commit message is preferred!
 git add .
 git commit -m "Updated website"
 ```
