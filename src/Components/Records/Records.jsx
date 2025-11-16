@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import NavBar from "../Home/NavBar";
+import AllAmericans from "./AllAmericans";
 
 export default function Records() {
   const [recordsByType, setRecordsByType] = useState({});
@@ -52,12 +53,12 @@ export default function Records() {
           if (!acc[rec.type]) acc[rec.type] = {};
 
           const eventKey = `${rec.event}_${rec.category}`;
-          
+
           // Get timestamp in milliseconds for comparison
           const recTimestamp = rec.dateAdded?.toMillis?.() || rec.dateAdded?.seconds * 1000 || 0;
-          const existingTimestamp = acc[rec.type][eventKey]?.dateAdded?.toMillis?.() || 
-                                   acc[rec.type][eventKey]?.dateAdded?.seconds * 1000 || 0;
-          
+          const existingTimestamp = acc[rec.type][eventKey]?.dateAdded?.toMillis?.() ||
+            acc[rec.type][eventKey]?.dateAdded?.seconds * 1000 || 0;
+
           if (
             !acc[rec.type][eventKey] ||
             recTimestamp > existingTimestamp
@@ -93,22 +94,22 @@ export default function Records() {
     const menRecords = records
       .filter((r) => r.category === "Men")
       .sort((a, b) => (a.event || "").localeCompare(b.event || ""));
-    
+
     // Get all women's records
     const allWomenRecords = records.filter((r) => r.category === "Women");
-    
+
     // Create a map of women's records by event name for quick lookup
     const womenMap = new Map();
     allWomenRecords.forEach((r) => {
       womenMap.set(r.event, r);
     });
-    
+
     // Get set of men's event names
     const menEventNames = new Set(menRecords.map((r) => r.event));
-    
+
     // Build ordered women's records: first match men's order, then add women's-only at end
     const orderedWomenRecords = [];
-    
+
     // Add women's records matching men's events in men's order
     menRecords.forEach((menRecord) => {
       const womenRecord = womenMap.get(menRecord.event);
@@ -116,14 +117,14 @@ export default function Records() {
         orderedWomenRecords.push(womenRecord);
       }
     });
-    
+
     // Add women's-only events at the end, sorted alphabetically
     const womenOnlyRecords = allWomenRecords
       .filter((r) => !menEventNames.has(r.event))
       .sort((a, b) => (a.event || "").localeCompare(b.event || ""));
-    
+
     orderedWomenRecords.push(...womenOnlyRecords);
-    
+
     return { menRecords, womenRecords: orderedWomenRecords };
   };
 
@@ -136,8 +137,8 @@ export default function Records() {
   }
 
   // Define the order for event types
-  const typeOrder = ["Cross Country", "Track", "Field", "Road Races", "All-Americans", "Club Elections"];
-  
+  const typeOrder = ["Cross Country", "Track", "Field", "Road Races", "Club Elections"];
+
   // Sort recordsByType entries by the defined order
   const sortedRecordsByType = Object.entries(recordsByType).sort(([typeA], [typeB]) => {
     const indexA = typeOrder.indexOf(typeA);
@@ -151,11 +152,11 @@ export default function Records() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9DCBF' }}>
       <NavBar />
-      
+
       {/* Splash Section - Fixed Background */}
-      <div 
+      <div
         className="relative w-screen"
-        style={{ 
+        style={{
           height: '70vh',
           backgroundImage: 'url(assets/landing_splash.png)',
           backgroundSize: 'cover',
@@ -228,12 +229,17 @@ export default function Records() {
               </div>
 
               {/* Divider */}
-              {index < sortedRecordsByType.length - 1 && (
-                <Divider />
-              )}
+              <Divider />
             </div>
           );
         })}
+        <div className="text-center mb-12">
+          <h2 className="text-5xl font-bold font-franklin text-gray-900 mb-4 capitalize tracking-tight">
+            All Americans
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-vaorange-500 to-vablue-500 mx-auto rounded-full"></div>
+        </div>
+        <AllAmericans></AllAmericans>
       </div>
     </div>
   );
@@ -248,8 +254,8 @@ function RecordCard({ record, color }) {
       <div className="space-y-2">
         <h4
           className={`text-xl font-bold font-franklin text-gray-900 transition-colors duration-200 ${isMen
-              ? "group-hover:text-vablue-500"
-              : "group-hover:text-vaorange-500"
+            ? "group-hover:text-vablue-500"
+            : "group-hover:text-vaorange-500"
             }`}
         >
           {record.event}
@@ -259,8 +265,8 @@ function RecordCard({ record, color }) {
         </p>
         <p
           className={`text-2xl font-bold font-franklin transition-colors duration-200 ${isMen
-              ? "text-vaorange-500 group-hover:text-vablue-500"
-              : "text-vablue-500 group-hover:text-vaorange-500"
+            ? "text-vaorange-500 group-hover:text-vablue-500"
+            : "text-vablue-500 group-hover:text-vaorange-500"
             }`}
         >
           {formatTime(record.time)}

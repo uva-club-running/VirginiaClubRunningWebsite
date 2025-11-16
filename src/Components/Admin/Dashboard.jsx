@@ -727,6 +727,8 @@ function AllAmericanForm() {
     event: "",
     time: "",
     place: "",
+    year: "",
+    semester: "",
   });
 
   useEffect(() => {
@@ -748,16 +750,23 @@ function AllAmericanForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!allAmerican.name.trim() || !allAmerican.event) {
-      alert("Please fill in athlete name and event.");
+    if (
+      !allAmerican.name.trim() ||
+      !allAmerican.event ||
+      !allAmerican.year ||
+      !allAmerican.semester
+    ) {
+      alert("Please fill in all required fields.");
       return;
     }
 
     const allAmericanData = {
       name: allAmerican.name.trim(),
-      eventId: allAmerican.event, // link to event
+      eventId: allAmerican.event,
       time: allAmerican.time.trim(),
       place: parseInt(allAmerican.place, 10),
+      year: parseInt(allAmerican.year, 10),
+      semester: allAmerican.semester,
       dateAdded: serverTimestamp(),
     };
 
@@ -769,6 +778,8 @@ function AllAmericanForm() {
         event: "",
         time: "",
         place: "",
+        year: "",
+        semester: "",
       });
 
       alert("All American added successfully!");
@@ -781,6 +792,7 @@ function AllAmericanForm() {
   return (
     <Card title="Add All American">
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Name */}
         <input
           name="name"
           type="text"
@@ -791,6 +803,7 @@ function AllAmericanForm() {
           required
         />
 
+        {/* Event */}
         <select
           name="event"
           value={allAmerican.event}
@@ -810,6 +823,7 @@ function AllAmericanForm() {
           ))}
         </select>
 
+        {/* Time */}
         <input
           name="time"
           type="text"
@@ -819,6 +833,7 @@ function AllAmericanForm() {
           className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
         />
 
+        {/* Place */}
         <input
           name="place"
           type="number"
@@ -829,6 +844,33 @@ function AllAmericanForm() {
           required
         />
 
+        {/* Year */}
+        <input
+          name="year"
+          type="number"
+          value={allAmerican.year}
+          onChange={handleChange}
+          placeholder="Year (e.g. 2025)"
+          min="2000"
+          max="2100"
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white placeholder-gray-400 focus:ring-2 focus:ring-vaorange-500"
+          required
+        />
+
+        {/* Semester */}
+        <select
+          name="semester"
+          value={allAmerican.semester}
+          onChange={handleChange}
+          className="w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white focus:ring-2 focus:ring-vaorange-500"
+          required
+        >
+          <option value="">Select Semester</option>
+          <option value="Spring">Spring</option>
+          <option value="Fall">Fall</option>
+        </select>
+
+        {/* Submit */}
         <button
           type="submit"
           className="w-full rounded-lg bg-vaorange-500 py-2 text-darkblue font-bold hover:bg-orange-400 transition"
