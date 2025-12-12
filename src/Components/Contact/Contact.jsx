@@ -8,16 +8,16 @@ export default function Contact() {
             subtitle: "for questions regarding new membership",
             people: [
                 {
-                    name: "Will Muck",
+                    name: "Josh Goldstein",
                     pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
-                    image: "/assets/Profiles/willmuck.jpg",
+                    email: "vuk2mn@virginia.edu",
+                    image: "/assets/Profiles26/joshgoldstein.jpg",
                 },
                 {
-                    name: "Mia Fanshaw",
+                    name: "Madison Sayen",
                     pronouns: "(she/her)",
-                    email: "nuv4zk@virginia.edu",
-                    image: "/assets/Profiles/miafanshaw.jpeg",
+                    email: "kwd7sk@virginia.edu",
+                    image: "/assets/Profiles26/madisonsayen.jpg",
                 },
             ],
         },
@@ -26,16 +26,16 @@ export default function Contact() {
             subtitle: "for questions regarding training",
             people: [
                 {
-                    name: "Chase Cartwright",
+                    name: "Sebastian Nowicki",
                     pronouns: "(he/him)",
-                    email: "ufq8rq@virginia.edu",
-                    image: "/assets/Profiles/chasecartwright.jpeg",
+                    email: "zrg4jh@virginia.edu",
+                    image: "/assets/Profiles26/sebastiannowicki.jpg",
                 },
                 {
-                    name: "Ella Harris",
+                    name: "Beall Roberts",
                     pronouns: "(she/her)",
-                    email: "ufq8rq@virginia.edu",
-                    image: "/assets/Profiles/ellaharris.png",
+                    email: "mpu5rz@virginia.edu",
+                    image: "/assets/Profiles26/beallroberts.jpg",
                 },
             ],
         },
@@ -44,10 +44,10 @@ export default function Contact() {
             subtitle: "for questions regarding sprint training",
             people: [
                 {
-                    name: "Hunter Lutz",
+                    name: "Garrett Uthlaut",
                     pronouns: "(he/him)",
-                    email: "mty9zs@virginia.edu",
-                    image: "/assets/Profiles/hunterlutz.jpeg",
+                    email: "ana5yh@virginia.edu",
+                    image: "/assets/simrat2.jpg",
                 },
             ],
         },
@@ -56,28 +56,28 @@ export default function Contact() {
             subtitle: "for questions concerning the Cavalier Invitational",
             people: [
                 {
-                    name: "Eli Cook",
+                    name: "Stephen Wolf",
                     pronouns: "(he/him)",
-                    email: "ucg8nb@virginia.edu",
-                    image: "/assets/Profiles/elicook.png",
+                    email: "bhp3sq@virginia.edu",
+                    image: "/assets/Profiles26/stephenwolf.jpg",
                 },
                 {
-                    name: "Beall Roberts",
+                    name: "Maria Gaytan",
                     pronouns: "(she/her)",
-                    email: "mpu5rz@virginia.edu",
-                    image: "/assets/Profiles/beallroberts.jpeg",
+                    email: "kkr2kw@virginia.edu",
+                    image: "/assets/Profiles26/mariagaytan.jpg",
                 }
             ],
         },
         {
-            title: "philanthropy chair",
+            title: "fundraising chair",
             subtitle: "for questions concerning club fundraising and volunteering",
             people: [
                 {
-                    name: "Nick Johnstone",
-                    pronouns: "(he/him)",
-                    email: "czm4yv@virginia.edu",
-                    image: "/assets/Profiles/nickjohnstone.jpeg",
+                    name: "Dana Johannsen",
+                    pronouns: "(she/her)",
+                    email: "gpk3qr@virginia.edu",
+                    image: "/assets/Profiles26/danajohannsen.jpg",
                 },
             ],
         },
@@ -86,16 +86,22 @@ export default function Contact() {
             subtitle: "for questions concerning club social events",
             people: [
                 {
-                    name: "Dana Johannsen",
+                    name: "Taylor Flynn",
                     pronouns: "(she/her)",
-                    email: "gpk3qr@virginia.edu",
-                    image: "/assets/Profiles/danajohannsen.jpeg",
+                    email: "dbh8zg@virginia.edu",
+                    image: "/assets/Profiles26/taylorflynn.jpg",
                 },
                 {
-                    name: "Tyler Stevens",
+                    name: "Kate DeForrest",
+                    pronouns: "(she/her)",
+                    email: "cmg9pb@virginia.edu",
+                    image: "/assets/Profiles26/katedeforrest.jpg",
+                },
+                {
+                    name: "Will Muck",
                     pronouns: "(he/him)",
-                    email: "uvn9ur@virginia.edu",
-                    image: "/assets/Profiles/tylerstevens.jpeg",
+                    email: "xsq2gy@virginia.edu",
+                    image: "/assets/Profiles26/willmuck.jpg",
                 },
             ],
         },
@@ -104,16 +110,16 @@ export default function Contact() {
             subtitle: "for all other questions about the club",
             people: [
                 {
-                    name: "Jesse Smith",
-                    pronouns: "(he/him)",
-                    email: "qsc7ay@virginia.edu",
-                    image: "/assets/Profiles/jesse_smith.jpg",
-                },
-                {
                     name: "Jackie Janicki",
                     pronouns: "(she/her)",
                     email: "fcb2ck@virginia.edu",
-                    image: "/assets/Profiles/jackiejanicki.jpeg",
+                    image: "/assets/Profiles26/jackiejanicki.jpg",
+                },
+                {
+                    name: "Tyler Jackson",
+                    pronouns: "(he/him)",
+                    email: "guw9pm@virginia.edu",
+                    image: "/assets/Profiles26/tylerjackson.jpg",
                 },
             ],
         },
@@ -122,10 +128,10 @@ export default function Contact() {
             subtitle: "for questions concerning club finances",
             people: [
                 {
-                    name: "Jenny Macler",
-                    pronouns: "(she/her)",
-                    email: "phu4ge@virginia.edu",
-                    image: "/assets/Profiles/jennymacler.jpeg",
+                    name: "Tyler Stevens",
+                    pronouns: "(he/him)",
+                    email: "uvn9ur@virginia.edu",
+                    image: "/assets/Profiles26/tylerstevens.jpg",
                 }
             ],
         },
@@ -134,16 +140,16 @@ export default function Contact() {
             subtitle: "for questions concerning the club's exec board and club social media",
             people: [
                 {
-                    name: "Kamren Reeves",
+                    name: "Nathan Gu",
                     pronouns: "(he/him)",
-                    email: "tex9yr@virginia.edu",
-                    image: "/assets/Profiles/kamrenreeves.jpeg",
+                    email: "ykb3cn@virginia.edu",
+                    image: "/assets/Profiles26/nathangu.jpg",
                 },
                 {
-                    name: "Hayley Sandler",
-                    pronouns: "(she/her)",
-                    email: "jmq3qd@virginia.edu",
-                    image: "/assets/Profiles/hayleysandler.jpeg",
+                    name: "Aaron Falik",
+                    pronouns: "(he/him)",
+                    email: "bks5gg@virginia.edu",
+                    image: "/assets/Profiles26/aaronfalik.jpg",
                 },
             ],
         },
@@ -152,10 +158,10 @@ export default function Contact() {
             subtitle: "for questions concerning the website and ListServ",
             people: [
                 {
-                    name: "Urav Tanna",
+                    name: "Aidan Szilagyi",
                     pronouns: "(he/him)",
-                    email: "jnk3hc@virginia.edu",
-                    image: "/assets/Profiles/uravtanna.jpeg",
+                    email: "uqk6ah@virginia.edu",
+                    image: "/assets/Profiles26/aidanszilagyi.jpg",
                 }
             ],
         }
@@ -208,7 +214,7 @@ export default function Contact() {
                             </p>
                         )}
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center">
+                        <div className="flex flex-row flex-wrap gap-12 justify-center">
                             {section.people.map((person) => (
                                 <div
                                     key={person.name}
@@ -218,7 +224,7 @@ export default function Contact() {
                                         src={person.image}
                                         alt={person.name}
                                         className={`w-56 h-56 object-cover rounded-full shadow-md ${section.title.toLowerCase().includes("webmaster")
-                                            ? "hover:[animation:spin_25s_linear_infinite]"
+                                            ? "[&:hover]:[animation:spin_25s_linear_infinite]"
                                             : ""
                                             }`}
                                     />
