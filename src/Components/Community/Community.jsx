@@ -10,7 +10,7 @@ export default function Community() {
                 className="relative w-screen"
                 style={{
                     height: '50vh',
-                    backgroundImage: "url('static/images/splash/social/social1.jpg')",
+                    backgroundImage: "url('assets/landing_splash.png')",
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundAttachment: 'fixed',
@@ -52,7 +52,7 @@ export default function Community() {
                 className="relative w-screen"
                 style={{
                     height: '50vh',
-                    backgroundImage: "url('static/images/splash/donate/pyramid.jpg')",
+                    backgroundImage: "url('assets/old_website_files/images/splash/donate/pyramid.jpg')",
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundAttachment: 'fixed',
@@ -130,7 +130,7 @@ export default function Community() {
                 className="relative w-screen"
                 style={{
                     height: '50vh',
-                    backgroundImage: "url('static/images/splash/charlottesville/1.png')",
+                    backgroundImage: "url('assets/old_website_files/images/splash/charlottesville/1.png')",
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundAttachment: 'fixed',

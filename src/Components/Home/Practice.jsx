@@ -36,7 +36,7 @@ function Practice() {
             allowTransparency
             frameBorder="0"
             scrolling="no"
-            src="https://www.strava.com/clubs/289895/latest-rides/4b7a2cbb9790cbe9ca665bbd27ac0e68ada5c4b5?show_rides=true"
+            src="https://www.strava.com/activities/289895/embed"
           ></iframe>
         </div>
       </div>
