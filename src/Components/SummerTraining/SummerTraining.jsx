@@ -35,7 +35,7 @@ export default function SummerTraining() {
                         Whether you're training for another PR or just looking to
                         finish your first 5k, we've got you covered!
 
-                        Our workout coordinators have put together some plans for
+                        Our workout coordinators have put together training plans for
                         runners of all skill levels. If you have any questions,
                         feel free to {" "}<a
                             href="/contact#workout-coordinators"
