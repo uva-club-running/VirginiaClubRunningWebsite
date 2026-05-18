@@ -10,6 +10,8 @@ import Admin from "./Components/Admin/Admin";
 import ProtectedRoute from "./ProtectedRoute";
 import Dashboard from "./Components/Admin/Dashboard";
 
+import SummerTraining from "./Components/SummerTraining/SummerTraining";
+
 function App() {
   return (
     <Routes>
@@ -29,6 +31,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/summer-training" element={<SummerTraining />} />
 
     </Routes>
   );

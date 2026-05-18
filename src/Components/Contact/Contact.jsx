@@ -1,5 +1,8 @@
 import NavBar from "../Home/NavBar";
 
+const slugify = (str) =>
+    str.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
+
 export default function Contact() {
     // 👇 Each section is its own object in the array
     const contacts = [
@@ -39,7 +42,7 @@ export default function Contact() {
                 },
             ],
         },
-        {
+        /*{
             title: "sprint coordinator",
             subtitle: "for questions regarding sprint training",
             people: [
@@ -50,7 +53,7 @@ export default function Contact() {
                     image: "/assets/Profiles26/garrettuthlaut.jpg",
                 },
             ],
-        },
+        }, */
         {
             title: "meet coordinators",
             subtitle: "for questions concerning the Cavalier Invitational",
@@ -204,7 +207,7 @@ export default function Contact() {
             {/* Contact Sections */}
             <div className="max-w-6xl mx-auto px-8 py-20">
                 {contacts.map((section) => (
-                    <div key={section.title} className="mb-24 text-center">
+                    <div key={section.title} id={slugify(section.title)} className="mb-24 text-center scroll-mt-24">
                         <h2 className="text-4xl text-vablue-500 md:text-5xl font-bold font-franklin mb-2">
                             {section.title}
                         </h2>
