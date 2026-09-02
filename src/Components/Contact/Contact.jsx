@@ -42,18 +42,18 @@ export default function Contact() {
                 },
             ],
         },
-        /*{
+        {
             title: "sprint coordinator",
             subtitle: "for questions regarding sprint training",
             people: [
                 {
-                    name: "Garrett Uthlaut",
-                    pronouns: "(he/him)",
-                    email: "ana5yh@virginia.edu",
-                    image: "/assets/Profiles26/garrettuthlaut.jpg",
+                    name: "Grace Armitage",
+                    pronouns: "(she/her)",
+                    email: "wuj6tk@virginia.edu",
+                    image: "/assets/Profiles26/gracearmitage.jpg",
                 },
             ],
-        }, */
+        }, 
         {
             title: "meet coordinators",
             subtitle: "for questions concerning the Cavalier Invitational",
@@ -95,10 +95,10 @@ export default function Contact() {
                     image: "/assets/Profiles26/taylorflynn.jpg",
                 }, 
                 {
-                    name: "Will Muck",
+                    name: "Will Taylor",
                     pronouns: "(he/him)",
-                    email: "xsq2gy@virginia.edu",
-                    image: "/assets/Profiles26/willmuck.jpg",
+                    email: "dqd5qw@virginia.edu",
+                    image: "/assets/Profiles26/willtaylor.jpg",
                 },
                 {
                     name: "Kate DeForrest",
