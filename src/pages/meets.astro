@@ -1,0 +1,95 @@
+---
+import Layout from "../layouts/Layout.astro";
+export const prerender = false;
+import { listDocuments } from "../lib/firestore.js";
+import NavBar from "./_partials/NavBar.astro";
+import {
+  formatDate,
+  groupBy,
+  semester,
+  sortedSemesters,
+  safeLink,
+} from "../lib/content.js";
+const meets = (await listDocuments("Meets")).sort(
+  (a, b) => new Date(a.date || 0) - new Date(b.date || 0),
+);
+const grouped = groupBy(meets, (meet) => semester(meet.date));
+const semesters = sortedSemesters(grouped);
+const currentSemester = semester(new Date());
+---
+
+<Layout title="Meets | Club Running at UVA">
+  <div class="min-h-screen bg-[#F9DCBF]">
+    <NavBar />
+    <div
+      class="relative w-full h-[70vh] bg-cover bg-center bg-fixed"
+      style="background-image: url('/assets/splash_meet.png')"
+    >
+      <div class="absolute inset-0 flex items-center justify-center flex-col">
+        <h1 class="text-white text-5xl md:text-7xl lg:text-9xl font-bold font-franklin">
+          Meets
+        </h1>
+        <h2 class="mt-3 text-center text-vaorange-500 text-3xl md:text-5xl lg:text-7xl font-bodoni italic">
+          Hoos gonna give it to ya.
+        </h2>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto px-8 py-20">
+      {semesters.map((term) => (
+        <details
+          open={term === currentSemester}
+          class="mb-8 bg-white/70 rounded-2xl shadow-lg overflow-hidden"
+        >
+          <summary class="px-8 py-5 bg-vablue-500 text-white text-2xl font-bold font-franklin">
+            {term}
+          </summary>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-franklin">
+              <thead class="bg-vaorange-500">
+                <tr>
+                  {["Date", "Meet", "Location", "Results"].map((label) => (
+                    <th scope="col" class="px-6 py-3 uppercase">
+                      {label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-300">
+                {grouped[term].map((meet) => (
+                  <tr class="hover:bg-white/60">
+                    <td class="px-6 py-4">{formatDate(meet.date)}</td>
+                    <td class="px-6 py-4 font-semibold">
+                      {meet.name || "TBD"}
+                    </td>
+                    <td class="px-6 py-4">{meet.location || "TBD"}</td>
+                    <td class="px-6 py-4">
+                      {safeLink(meet.results) ? (
+                        <a
+                          href={safeLink(meet.results)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-vablue-500 underline"
+                        >
+                          View Results
+                        </a>
+                      ) : (
+                        <span class="text-gray-500 italic">
+                          {meet.results?.trim() || "Pending"}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      ))}
+      {semesters.length === 0 && (
+        <p class="bg-white/60 rounded-2xl p-12 text-center text-gray-600 italic">
+          No meets scheduled yet.
+        </p>
+      )}
+    </div>
+  </div>
+</Layout>

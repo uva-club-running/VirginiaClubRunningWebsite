@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      // Keep this list synchronized with Worker ADMIN_UIDS.
+      return request.auth != null && request.auth.uid in ['wZmt0Go4RhR7zt4MlLK2JfSYDQI2'];
+    }
+    function refreshed(page) {
+      let marker = /databases/$(database)/documents/SiteCache/$(page);
+      return getAfter(marker).data.updatedAt == request.time
+        && (!exists(marker) || getAfter(marker).data.revision != get(marker).data.revision);
+    }
+    match /Meets/{id} {
+      allow read: if true;
+      allow write: if isAdmin() && refreshed('meets');
+    }
+    match /Philanthropy/{id} {
+      allow read: if true;
+      allow write: if isAdmin() && refreshed('philanthropy');
+    }
+    match /{collection}/{id} {
+      allow read: if collection in ['Records', 'Events', 'AllAmericans'];
+      allow write: if collection in ['Records', 'Events', 'AllAmericans'] && isAdmin() && refreshed('records');
+    }
+    match /SiteCache/{page} {
+      allow get: if page in ['records', 'meets', 'philanthropy'];
+      allow create, update: if isAdmin()
+        && page in ['records', 'meets', 'philanthropy']
+        && request.resource.data.keys().hasOnly(['revision', 'updatedAt'])
+        && request.resource.data.revision is string
+        && request.resource.data.revision.size() == 36
+        && request.resource.data.updatedAt == request.time;
+    }
+  }
+}

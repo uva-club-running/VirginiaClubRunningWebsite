@@ -4,29 +4,30 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "npm run build && wrangler deploy",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
+    "@astrojs/cloudflare": "^14.3.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "alpinejs": "^3.17.4",
+    "astro": "^7.3.5",
     "firebase": "^12.3.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-firebase-hooks": "^5.1.1",
-    "react-router-dom": "^7.8.2",
-    "tailwindcss": "^4.1.11"
+    "jose": "^6.2.12",
+    "tailwindcss": "^4.3.3",
+    "wrangler": "^4.147.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.6.0",
     "eslint": "^9.30.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
-    "vite": "^7.0.4"
+    "vite": "^8.3.3"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

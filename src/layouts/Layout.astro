@@ -1,0 +1,16 @@
+---
+import '../index.css';
+const { title = 'Club Running at UVA', admin = false } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Virginia Club Running at UVA. Join our practices, meets, and community events." />
+    {admin && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+    <title>{title}</title>
+  </head>
+  <body><slot /></body>
+</html>

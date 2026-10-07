@@ -1,0 +1,36 @@
+---
+const links = [
+  ["/training/", "Join"],
+  ["/meets/", "Meets"],
+  ["/community/", "Community"],
+  ["/philanthropy/", "Philanthropy"],
+  ["/records/", "Records"],
+  ["/contact/", "Contact"],
+];
+---
+
+<nav
+  aria-label="Main navigation"
+  class="w-full bg-vablue-500 text-white font-franklin"
+>
+  <div class="min-h-[8.5vh] flex items-center justify-between px-6 gap-6">
+    <a href="/" aria-label="Virginia Club Running home">
+      <img src="/assets/logo.svg" alt="Virginia Club Running Logo" />
+    </a>
+    <div class="hidden min-[875px]:flex items-center gap-8 text-lg font-semibold">
+      {links.map(([href, label]) => (
+        <a href={href}>{label}</a>
+      ))}
+    </div>
+    <details class="min-[875px]:hidden relative">
+      <summary class="cursor-pointer text-3xl" aria-label="Toggle navigation">
+        ☰
+      </summary>
+      <div class="absolute right-0 top-full z-[100] w-56 bg-vablue-500 p-5 flex flex-col gap-4 shadow-lg">
+        {links.map(([href, label]) => (
+          <a href={href}>{label}</a>
+        ))}
+      </div>
+    </details>
+  </div>
+</nav>

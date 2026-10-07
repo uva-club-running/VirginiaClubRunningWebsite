@@ -9,3 +9,11 @@
   --font-franklin: "Libre Franklin", sans-serif;
   --font-bodoni: "Libre Bodoni";
 }
+
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+summary { cursor: pointer; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-bounce { animation: none; }
+}

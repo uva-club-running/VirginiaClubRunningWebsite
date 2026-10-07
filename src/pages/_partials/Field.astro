@@ -1,0 +1,65 @@
+---
+const {
+  name,
+  label,
+  type = "text",
+  required = true,
+  options,
+  source,
+} = Astro.props;
+const inputClass =
+  "mt-1 block w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white";
+---
+
+<label class="block">
+  {label}
+  {!required && " (optional)"}
+  {source === "events" ? (
+    <select
+      name={name}
+      x-model={`data.${name}`}
+      required={required}
+      class={inputClass}
+    >
+      <option value="">Select event</option>
+      <template x-for="event in events" x-bind:key="event.id">
+        <option
+          x-bind:value="event.id"
+          x-text="`${event.name} — ${event.type}`"
+        ></option>
+      </template>
+    </select>
+  ) : options ? (
+    <select
+      name={name}
+      x-model={`data.${name}`}
+      required={required}
+      class={inputClass}
+    >
+      <option value="">Select {label.toLowerCase()}</option>
+      {options.map((value) => (
+        <option value={value}>{value}</option>
+      ))}
+    </select>
+  ) : type === "textarea" ? (
+    <textarea
+      name={name}
+      x-model={`data.${name}`}
+      required={required}
+      class={inputClass}
+      rows="4"
+      maxlength="10000"
+    ></textarea>
+  ) : (
+    <input
+      name={name}
+      x-model={`data.${name}`}
+      required={required}
+      class={inputClass}
+      type={type}
+      min={type === "number" ? (name === "year" ? 1900 : 1) : undefined}
+      max={name === "year" ? 2200 : undefined}
+      maxlength={type === "url" ? 2000 : 200}
+    />
+  )}
+</label>

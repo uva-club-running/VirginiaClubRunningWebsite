@@ -1,0 +1,171 @@
+---
+import Layout from "../layouts/Layout.astro";
+export const prerender = false;
+import { listDocuments } from "../lib/firestore.js";
+import NavBar from "./_partials/NavBar.astro";
+import RecordCard from "./_partials/RecordCard.astro";
+import { groupRecords, groupBy, sortedSemesters } from "../lib/content.js";
+const [records, events, allAmericans] = await Promise.all(
+  ["Records", "Events", "AllAmericans"].map((name) => listDocuments(name)),
+);
+const sortedRecordsByType = groupRecords(records, events);
+const groupRecordsByGender = (records) => ({
+  menRecords: records
+    .filter((r) => r.category === "Men")
+    .sort((a, b) => a.event.localeCompare(b.event)),
+  womenRecords: records
+    .filter((r) => r.category === "Women")
+    .sort((a, b) => a.event.localeCompare(b.event)),
+});
+const eventMap = new Map(events.map((event) => [event.id, event.name]));
+const grouped = groupBy(
+  allAmericans,
+  (record) => `${record.semester} ${record.year}`,
+);
+const semesters = sortedSemesters(grouped);
+---
+
+<Layout title="Records | Club Running at UVA">
+  <div class="min-h-screen" style={{ backgroundColor: "#F9DCBF" }}>
+    <NavBar />
+
+    {/* Splash Section - Fixed Background */}
+    <div
+      class="relative w-screen"
+      style={{
+        height: "70vh",
+        backgroundImage: "url(/assets/landing_splash.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div class="absolute inset-0 flex items-center justify-center flex-col">
+        <h1 class="text-white text-5xl md:text-7xl lg:text-9xl font-bold font-franklin">
+          Records
+        </h1>
+        <h2 class="mt-3 text-center text-vaorange-500 text-3xl md:text-5xl lg:text-7xl font-bodoni italic">
+          Hoos represent.
+        </h2>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-8 py-20">
+      {sortedRecordsByType.map(([type, records]) => {
+        const { menRecords, womenRecords } = groupRecordsByGender(records);
+
+        return (
+          <div class="mb-20">
+            {/* Title */}
+            <div class="text-center mb-12">
+              <h2 class="text-5xl font-bold font-franklin text-gray-900 mb-4 capitalize tracking-tight">
+                {type}
+              </h2>
+              <div class="w-24 h-1 bg-gradient-to-r from-vaorange-500 to-vablue-500 mx-auto rounded-full"></div>
+            </div>
+
+            {/* Grid */}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+              {/* Men's Records */}
+              <div class="space-y-8">
+                <div class="text-center mb-6">
+                  <h3 class="text-2xl font-bold font-franklin text-vablue-500 uppercase tracking-wide">
+                    Men's Records
+                  </h3>
+                </div>
+                {menRecords.length === 0 ? (
+                  <p class="text-center text-gray-500 italic">
+                    No men's records yet.
+                  </p>
+                ) : (
+                  menRecords.map((record) => (
+                    <RecordCard record={record} color="men" />
+                  ))
+                )}
+              </div>
+
+              {/* Women's Records */}
+              <div class="space-y-8">
+                <div class="text-center mb-6">
+                  <h3 class="text-2xl font-bold font-franklin text-vaorange-500 uppercase tracking-wide">
+                    Women's Records
+                  </h3>
+                </div>
+                {womenRecords.length === 0 ? (
+                  <p class="text-center text-gray-500 italic">
+                    No women's records yet.
+                  </p>
+                ) : (
+                  womenRecords.map((record) => (
+                    <RecordCard record={record} color="women" />
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div class="relative mt-20">
+              <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+              </div>
+              <div class="relative flex justify-center">
+                <div class="bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+                  <div class="w-2 h-2 bg-vaorange-500 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+      <div class="text-center mb-12">
+        <h2 class="text-5xl font-bold font-franklin text-gray-900 mb-4 capitalize tracking-tight">
+          All Americans
+        </h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-vaorange-500 to-vablue-500 mx-auto rounded-full"></div>
+      </div>
+      <div class="w-full px-4 sm:px-8 lg:px-16">
+        {semesters.map((term, index) => (
+          <details
+            open={index < 2}
+            class="mb-8 bg-white/70 rounded-2xl shadow-lg overflow-hidden"
+          >
+            <summary class="px-8 py-5 bg-vablue-500 text-white text-2xl font-bold font-franklin">
+              {term}
+            </summary>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left font-franklin">
+                <thead class="bg-vaorange-500">
+                  <tr>
+                    {["Athlete", "Event", "Time", "Place"].map((label) => (
+                      <th scope="col" class="px-6 py-3 uppercase">
+                        {label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-300">
+                  {grouped[term].map((record) => (
+                    <tr class="hover:bg-white/60">
+                      <td class="px-6 py-4 font-semibold">{record.name}</td>
+                      <td class="px-6 py-4">
+                        {eventMap.get(record.eventId) || "—"}
+                      </td>
+                      <td class="px-6 py-4">{record.time || "—"}</td>
+                      <td class="px-6 py-4">{record.place || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
+        ))}
+        {semesters.length === 0 && (
+          <p class="text-center text-gray-500 font-franklin py-8">
+            No All-American records found.
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>

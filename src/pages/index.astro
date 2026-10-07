@@ -1,0 +1,184 @@
+---
+import Layout from "../layouts/Layout.astro";
+import NavBar from "./_partials/NavBar.astro";
+---
+
+<Layout title="Club Running at UVA">
+  <NavBar />
+
+  <!-- Splash -->
+  <div class="relative w-screen">
+    <img
+      src="/assets/landing_splash.png"
+      alt="Banner"
+      class="w-screen h-[91.5vh] object-cover"
+    />
+    <div class="absolute inset-0 flex items-start justify-center">
+      <div class="flex-row mt-16">
+        <h1 class="text-white text-5xl md:text-7xl lg:text-9xl font-bold font-franklin bg-opacity-50 top-4">
+          Club Running
+        </h1>
+        <h1 class="mt-3 text-center text-vaorange-500 text-5xl md:text-7xl lg:text-9xl font-bodoni italic">
+          at UVA
+        </h1>
+      </div>
+      <a href="#practice">
+        <img
+          src="/assets/down_arrow.svg"
+          alt="Scroll down"
+          class="absolute bottom-4 left-1/2 -translate-x-1/2 w-20 h-20 animate-bounce cursor-pointer z-50 transition-transform duration-300 hover:scale-110"
+        />
+      </a>
+    </div>
+  </div>
+
+  <!-- Practice -->
+  <div id="practice" class="relative w-screen">
+    <img
+      src="/assets/practice_splash.png"
+      alt="Banner"
+      class="w-screen h-screen object-cover"
+    />
+    <div class="absolute flex flex-col xl:flex-row justify:center xl:justify-start inset-0 items-center xl:items-start">
+      <div class="flex-row xl:ml-[2%] mt-5 xl:mt-[5%]">
+        <h1 class="text-center text-white text-3xl sm:text-5xl xl:text-7xl font-bold font-franklin bg-opacity-50 top-4">
+          Practices.
+        </h1>
+        <h1 class="mt-3 text-center text-vaorange-500 text-2xl sm:text-4xl lg:text-4xl xl:text-5xl font-bodoni italic">
+          Building character - and muscles.
+        </h1>
+        <div class="text-center xl: text-start text-sm p-4 rounded mt-5 sm:text-md lg:text-xl xl:text-2xl text-white font-franklin italic">
+          <p>
+            The club practices Monday through Thursday at Nameless Field, near
+            Memorial Gym. Practices are held at 5:00pm during the fall. During
+            the spring, practices will be held at 5:00pm on Monday/Thursday, and
+            4:00pm Tuesday/Wednesday. After the clock shifts on March 9th, the
+            time for all days will be 5:00pm.
+          </p>
+          <p class="mt-6">
+            No practices are mandatory; some runners attend only a few practices
+            a week while many of our runners attend as many as possible. Members
+            also frequently organize their own runs on weekends, and many track
+            their runs on Strava.
+          </p>
+        </div>
+      </div>
+      <div class="w-full h-full flex justify-center items-center">
+        <iframe
+          class="widget mb-25 sm:w-100 sm:h-60 lg:h-120 lg:w-70"
+          allowtransparency
+          frameborder="0"
+          scrolling="no"
+          src="https://www.strava.com/clubs/289895/latest-rides/4b7a2cbb9790cbe9ca665bbd27ac0e68ada5c4b5?show_rides=true"
+        ></iframe>
+      </div>
+    </div>
+    <a href="#meets">
+      <img
+        src="/assets/down_arrow.svg"
+        alt="Scroll down"
+        class="absolute bottom-4 left-1/2 -translate-x-1/2 w-20 h-20 animate-bounce cursor-pointer z-50 transition-transform duration-300 hover:scale-110"
+      />
+    </a>
+  </div>
+
+  <!-- Meets -->
+  <div id="meets" class="relative w-screen h-screen">
+    {/* Background image */}
+    <img
+      src="/assets/splash_meet.png"
+      alt="Banner"
+      class="w-full h-full object-cover"
+    />
+
+    {/* Overlay container */}
+    <div class="absolute inset-0 flex flex-col sm:flex-row w-full h-full">
+      {/* Left half */}
+      <div class="sm:h-full sm:w-1/2 flex justify-center items-start pt-20">
+        <div class="flex flex-col items-center px-8">
+          <h1 class="text-franklin text-4xl sm:text-7xl text-white font-bold">
+            Meets.
+          </h1>
+          <h2 class="text-center text-vaorange-500 text-3xl sm:text-5xl font-bodoni italic">
+            Hoos gonna give it to ya.
+          </h2>
+        </div>
+      </div>
+
+      {/* Right half */}
+      <div class="sm:h-full sm:w-1/2 flex justify-center items-start pt-10 sm:pt-20 px-8">
+        <p class="text-center text-white text-md sm:text-xl lg:text-2xl font-franklin italic max-w-lg mx-10 sm:mx-0 md:mr-20">
+          The club attends more than half a dozen cross country and track meets
+          throughout the year, including NIRCA Regional and National
+          Championships. We have the opportunity to compete against a variety of
+          Division III and club teams from across the country, and the Hoos
+          represent well at almost every meet. The club offers runners of all
+          skill levels an opportunity to push themselves to race at a collegiate
+          level without the time commitment of a varsity team. See our meet
+          schedule
+        </p>
+      </div>
+    </div>
+    <a href="#community">
+      <img
+        src="/assets/down_arrow.svg"
+        alt="Scroll down"
+        class="absolute bottom-4 left-1/2 -translate-x-1/2 w-20 h-20 animate-bounce cursor-pointer z-50 transition-transform duration-300 hover:scale-110"
+      />
+    </a>
+  </div>
+
+  <!-- Community -->
+  <div id="community" class="relative w-screen">
+    <img
+      src="/assets/community_splash.png"
+      alt="Banner"
+      class="w-screen h-screen object-cover"
+    />
+    <div class="absolute inset-0 flex items-start justify-center">
+      <div class="h-full flex flex-col justify-center items-center">
+        <h1 class="text-franklin text-4xl md:text-5xl lg:text-6xl text-white font-bold">
+          Community.
+        </h1>
+        <h2 class="mt-2 text-center text-vaorange-500 text-2xl md:text-3xl lg:text-4xl font-bodoni italic">
+          More than just running.
+        </h2>
+        <p class="mt-10 md:mt-20 mb-10 mx-15 md:mx-40 lg:mx-80 text-center text-white text-lg md:text-xl font-franklin italic">
+          The club enjoys a close-knit social community in addition to its
+          training. We host team parties, enjoy group dinner after practice
+          every evening, organize intramural teams for soccer and dodgeball, and
+          go on day trips to Kings Dominion, Carter Mountain, and other nearby
+          attractions. We’re a close-knit group that loves to welcome new
+          members—we hope you can find your place with us! Oh, and we've got
+          some killer anthems, too.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-darkblue-500 text-gray-300 text-sm py-4 text-center">
+    <div class="flex flex-col items-center">
+      <p class="italic m-6 pl-10 pr-10">
+        Although this organization has members who are University of Virginia
+        students and may have University employees associated or engaged in its
+        activities and affairs, the organization is not a part of or an agency
+        of the University. It is a separate and independent organization which
+        is responsible for and manages its own activities and affairs. The
+        University does not direct, supervise or control the organization and is
+        not responsible for the organization’s contracts, acts or omissions.
+      </p>
+      <div class="flex flex-row gap-12">
+        <a href="https://www.instagram.com/hoosrunning/">
+          <img src="/assets/instagram.svg" />
+        </a>
+        <a href="https://www.youtube.com/@hoosrunning">
+          <img src="/assets/youtube.svg" />
+        </a>
+      </div>
+      <p class="mt-5 font-bodoni text-vaorange-500 italic text-xl">
+        Made in Charlottesville, VA
+      </p>
+    </div>
+  </footer>
+</Layout>

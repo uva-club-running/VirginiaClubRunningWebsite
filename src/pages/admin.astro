@@ -1,0 +1,246 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContentForm from "./_partials/ContentForm.astro";
+import Field from "./_partials/Field.astro";
+export const prerender = false;
+Astro.response.headers.set("Cache-Control", "no-store");
+const sections = [
+  ["Meets", "Meets"],
+  ["Records", "Records"],
+  ["Philanthropy", "Philanthropy"],
+  ["AllAmericans", "All Americans"],
+];
+---
+
+<Layout title="Admin | Club Running at UVA" admin>
+  <main
+    x-data="adminSession"
+    class="min-h-screen bg-darkblue-500 text-white font-franklin"
+  >
+    <p x-show="loading" class="p-12 text-center" role="status">
+      Checking admin access…
+    </p>
+    <div
+      x-cloak
+      x-show="!loading && sessionError && !authorized"
+      class="p-12 text-center"
+    >
+      <p x-text="sessionError" role="alert"></p>
+      <button type="button" class="underline mt-4" x-on:click="logout">
+        Sign out
+      </button>
+    </div>
+    <div
+      x-cloak
+      x-show="!loading && !authorized && !sessionError"
+      class="flex min-h-screen items-center justify-center p-6"
+    >
+      <div class="w-full max-w-md rounded-2xl bg-vablue-500 p-8 shadow-xl">
+        <h1 class="mb-6 text-center text-3xl text-vaorange-500">Admin Login</h1>
+        <form x-on:submit.prevent="login" class="space-y-5">
+          <fieldset x-bind:disabled="loginBusy" class="space-y-5">
+            <label class="block">
+              Email
+              <input
+                name="email"
+                type="email"
+                autocomplete="username"
+                x-model="email"
+                required
+                class="mt-1 block w-full rounded-lg border px-3 py-2"
+              />
+            </label>
+            <label class="block">
+              Password
+              <input
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                x-model="password"
+                required
+                class="mt-1 block w-full rounded-lg border px-3 py-2"
+              />
+            </label>
+            <button
+              type="submit"
+              class="w-full rounded-lg bg-vaorange-500 py-2 text-darkblue-500 font-bold disabled:opacity-50"
+              x-text="loginBusy ? 'Signing in…' : 'Log In'"
+            >
+              Log In
+            </button>
+          </fieldset>
+          <p x-show="loginError" x-text="loginError" role="alert"></p>
+        </form>
+        <a href="/" class="block mt-6 underline text-center">
+          Back to website
+        </a>
+      </div>
+    </div>
+    <template x-if="authorized">
+      <div
+        class="min-h-screen bg-darkblue-500 p-6 text-white font-franklin"
+        x-on:content-saved="loadOptions"
+      >
+        <h1 class="text-4xl font-bold mb-4 text-center text-vaorange-500">
+          Club Running Admin Dashboard
+        </h1>
+        <div class="flex flex-wrap justify-center gap-5 mb-8">
+          <span x-text="userEmail"></span>
+          <a href="/" class="underline">
+            View website
+          </a>
+          <button type="button" x-on:click="logout" class="underline">
+            Sign out
+          </button>
+        </div>
+        <p x-show="sessionError" x-text="sessionError" role="alert"></p>
+        <div
+          class="flex flex-wrap justify-center gap-4 mb-10"
+          aria-label="Content sections"
+        >
+          {sections.map(([value, label]) => (
+            <button
+              type="button"
+              x-on:click={`tab = '${value}'`}
+              x-bind:aria-pressed={`tab === '${value}'`}
+              class="px-5 py-2 rounded-lg"
+              x-bind:class={`tab === '${value}' ? 'bg-vaorange-500 text-darkblue-500' : 'bg-vablue-500 text-white'`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <div class="max-w-2xl mx-auto space-y-10">
+          <p x-show="optionsLoading" role="status">
+            Loading form options…
+          </p>
+          <div x-show="readError" role="alert">
+            <p x-text="readError"></p>
+            <button type="button" class="underline" x-on:click="loadOptions">
+              Retry loading options
+            </button>
+          </div>
+          <div x-show="tab === 'Meets'" class="space-y-10">
+            <ContentForm collection="Meets" title="Add Meet">
+              <Field name="name" label="Meet name" />
+              <Field name="date" label="Date" type="date" />
+              <Field name="location" label="Location" />
+              <Field
+                name="results"
+                label="Results URL"
+                type="url"
+                required={false}
+              />
+            </ContentForm>
+            <ContentForm
+              collection="Meets"
+              title="Update Meet Results"
+              operation="updateResults"
+            >
+              <label class="block">
+                Meet
+                <select
+                  name="id"
+                  x-model="id"
+                  required
+                  class="mt-1 block w-full rounded-lg border border-vaorange-500 bg-darkblue-500 px-3 py-2 text-white"
+                >
+                  <option value="">Select meet</option>
+                  <template x-for="meet in meets" x-bind:key="meet.id">
+                    <option
+                      x-bind:value="meet.id"
+                      x-text="`${meet.name} — ${meet.year || 'Unknown year'} — ${meet.location}`"
+                    ></option>
+                  </template>
+                </select>
+              </label>
+              <Field name="results" label="Results URL" type="url" />
+            </ContentForm>
+          </div>
+          <div x-show="tab === 'Records'" class="space-y-10">
+            <ContentForm collection="Records" title="Add Record">
+              <Field name="name" label="Athlete name(s)" />
+              <Field name="eventId" label="Event" source="events" />
+              <Field name="time" label="Time / mark" />
+              <Field
+                name="category"
+                label="Category"
+                options={["Men", "Women"]}
+              />
+              <Field name="year" label="Year" type="number" />
+            </ContentForm>
+            <ContentForm collection="Events" title="Add Event">
+              <Field name="name" label="Event name" />
+              <Field
+                name="type"
+                label="Event type"
+                options={[
+                  "Cross Country",
+                  "Track",
+                  "Field",
+                  "Road Races",
+                  "Club Elections",
+                ]}
+              />
+            </ContentForm>
+          </div>
+          <div x-show="tab === 'Philanthropy'">
+            <ContentForm
+              collection="Philanthropy"
+              title="Add Philanthropy Event"
+            >
+              <Field name="name" label="Event name" />
+              <Field name="date" label="Date" type="date" />
+              <Field
+                name="partner_org"
+                label="Partner organization"
+                required={false}
+              />
+              <Field
+                name="description"
+                label="Description"
+                type="textarea"
+                required={false}
+              />
+              <Field
+                name="link"
+                label="Event URL"
+                type="url"
+                required={false}
+              />
+              <Field
+                name="flyer_link"
+                label="Flyer URL"
+                type="url"
+                required={false}
+              />
+            </ContentForm>
+          </div>
+          <div x-show="tab === 'AllAmericans'">
+            <ContentForm collection="AllAmericans" title="Add All American">
+              <Field name="name" label="Athlete name(s)" />
+              <Field name="eventId" label="Event" source="events" />
+              <Field name="time" label="Time / mark" required={false} />
+              <Field name="place" label="Place" type="number" />
+              <Field name="year" label="Year" type="number" />
+              <Field
+                name="semester"
+                label="Semester"
+                options={["Spring", "Fall"]}
+              />
+            </ContentForm>
+          </div>
+        </div>
+      </div>
+    </template>
+  </main>
+  <style is:global>
+    [x-cloak] {
+      display: none !important;
+    }
+  </style>
+  <script>
+    import "../lib/admin-alpine.js";
+  </script>
+  <noscript>JavaScript is required to use the admin dashboard.</noscript>
+</Layout>
