@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "virginiaclubrunningwebsite",
+  "name": "virginia-club-running-website",
   "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-10-06",
   "compatibility_flags": ["nodejs_compat"],
