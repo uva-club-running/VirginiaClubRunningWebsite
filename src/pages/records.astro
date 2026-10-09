@@ -2,8 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 export const prerender = false;
 import { listDocuments } from "../lib/firestore.js";
-import NavBar from "./_partials/NavBar.astro";
-import RecordCard from "./_partials/RecordCard.astro";
+import NavBar from "./_components/NavBar.astro";
+import RecordCard from "./_components/RecordCard.astro";
 import { groupRecords, groupBy, sortedSemesters } from "../lib/content.js";
 const [records, events, allAmericans] = await Promise.all(
   ["Records", "Events", "AllAmericans"].map((name) => listDocuments(name)),

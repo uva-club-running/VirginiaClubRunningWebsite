@@ -79,7 +79,7 @@ The existing `.github/workflows/deploy.yml` is unchanged at the user's request. 
 
 - `src/pages/` — each Astro route contains its data loading and page markup, including the home sections, contact data, and records tables. The authenticated admin API is under `src/pages/api/`.
 - `src/pages/admin.astro` — login and dashboard form markup in one file.
-- `src/pages/_partials/` — shared navigation, repeated record cards, and the reusable admin `Field.astro` / `ContentForm.astro` primitives. The underscore excludes these files from routing. There is no separate components directory.
+- `src/pages/_components/` — shared navigation, repeated record cards, and the reusable admin `Field.astro` / `ContentForm.astro` primitives. The underscore excludes these files from routing. There is no separate components directory.
 - `src/lib/admin-alpine.js` — admin-only Alpine initialization and Firebase wiring.
 - `src/lib/admin-session.js`, `src/lib/admin-forms.js` — login/session state and submit handlers. `x-model` binds input values; `x-on:submit.prevent="save"` sends them through `admin-client.js` to the existing authenticated Worker API.
 - `src/lib/firestore.js` — Firestore REST codecs and requests.

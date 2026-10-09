@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ContentForm from "./_partials/ContentForm.astro";
-import Field from "./_partials/Field.astro";
+import ContentForm from "./_components/ContentForm.astro";
+import Field from "./_components/Field.astro";
 export const prerender = false;
 Astro.response.headers.set("Cache-Control", "no-store");
 const sections = [
