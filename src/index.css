@@ -3,9 +3,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-vablue-500: oklch(0.327 0.1196 257.73);
-  --color-vaorange-500: oklch(0.7017 0.179302 52.4871);
-  --color-darkblue-500: oklch(0.2007 0.0747 258.11);
+  --color-primary-blue: #003170;
+  --color-secondary-orange: #f27800;
+  --color-tertiary-darkblue: #001437;
+  --color-hyperlink-blue: #0000EE;
+
+  /* UVA Official Colors (Only orange-25 is used) */
+  --color-uva-blue: #232D4B;
+  --color-uva-orange: #E57200;
+  --color-uva-blue-25-percent: #C8CBD2;
+  --color-uva-orange-25-percent: #F9DCBF;
+
   --font-franklin: "Libre Franklin", sans-serif;
   --font-bodoni: "Libre Bodoni";
 }

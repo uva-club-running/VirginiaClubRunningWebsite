@@ -7,7 +7,7 @@ const isMen = color === "men";
   <div class="space-y-2">
     <h4
       class={`text-xl font-bold font-franklin text-gray-900 transition-colors duration-200 ${
-        isMen ? "group-hover:text-vablue-500" : "group-hover:text-vaorange-500"
+        isMen ? "group-hover:text-primary-blue" : "group-hover:text-secondary-orange"
       }`}
     >
       {record.event}
@@ -18,8 +18,8 @@ const isMen = color === "men";
     <p
       class={`text-2xl font-bold font-franklin transition-colors duration-200 ${
         isMen
-          ? "text-vaorange-500 group-hover:text-vablue-500"
-          : "text-vablue-500 group-hover:text-vaorange-500"
+          ? "text-secondary-orange group-hover:text-primary-blue"
+          : "text-primary-blue group-hover:text-secondary-orange"
       }`}
     >
       {record.time || ""}

@@ -3,16 +3,16 @@ const { collection, title, operation = "create" } = Astro.props;
 ---
 
 <section
-  class="bg-vablue-500 shadow-xl rounded-2xl p-6"
+  class="bg-primary-blue shadow-xl rounded-2xl p-6"
   x-data={`contentForm('${collection}', '${operation}')`}
 >
-  <h2 class="text-2xl mb-6 text-vaorange-500">{title}</h2>
+  <h2 class="text-2xl mb-6 text-secondary-orange">{title}</h2>
   <form x-on:submit.prevent="save" class="space-y-4">
     <fieldset x-bind:disabled="busy" class="space-y-4">
       <slot />
       <button
         type="submit"
-        class="w-full rounded-lg bg-vaorange-500 py-2 text-darkblue-500 font-bold disabled:opacity-50"
+        class="w-full rounded-lg bg-secondary-orange py-2 text-tertiary-darkblue font-bold disabled:opacity-50"
         x-text="busy ? 'Saving…' : 'Save'"
       >
         Save
