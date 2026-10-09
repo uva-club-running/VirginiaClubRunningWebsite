@@ -8,5 +8,6 @@ export default defineConfig({
   session: false,
   adapter: cloudflare({ imageService: 'passthrough' }),
   trailingSlash: 'ignore',
+  prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
   vite: { plugins: [tailwindcss()] },
 });
