@@ -4,10 +4,11 @@ export const prerender = false;
 import { listDocuments } from "../lib/firestore.js";
 import NavBar from "./_components/NavBar.astro";
 import { calendarDay, formatDate, safeLink } from "../lib/content.js";
+import type { PhilanthropyEvent } from "../lib/content-types";
 const today = calendarDay(new Date());
-const events = (await listDocuments("Philanthropy"))
+const events = (await listDocuments("Philanthropy") as PhilanthropyEvent[])
   .filter((e) => e.name && calendarDay(e.date) >= today)
-  .sort((a, b) => new Date(a.date) - new Date(b.date));
+  .sort((a, b) => new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime());
 ---
 
 <Layout title="Philanthropy | Club Running at UVA">

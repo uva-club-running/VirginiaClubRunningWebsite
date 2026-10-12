@@ -5,11 +5,15 @@ import { listDocuments } from "../lib/firestore.js";
 import NavBar from "./_components/NavBar.astro";
 import RecordCard from "./_components/RecordCard.astro";
 import { groupRecords, groupBy, sortedSemesters } from "../lib/content.js";
+import type { Event, GroupedRecord, RecordDocument } from "../lib/content-types";
 const [records, events, allAmericans] = await Promise.all(
   ["Records", "Events", "AllAmericans"].map((name) => listDocuments(name)),
 );
-const sortedRecordsByType = groupRecords(records, events);
-const groupRecordsByGender = (records) => ({
+const typedRecords = records as RecordDocument[];
+const typedEvents = events as Event[];
+const typedAllAmericans = allAmericans as RecordDocument[];
+const sortedRecordsByType = groupRecords(typedRecords, typedEvents) as [string, GroupedRecord[]][];
+const groupRecordsByGender = (records: GroupedRecord[]) => ({
   menRecords: records
     .filter((r) => r.category === "Men")
     .sort((a, b) => a.event.localeCompare(b.event)),
@@ -17,11 +21,11 @@ const groupRecordsByGender = (records) => ({
     .filter((r) => r.category === "Women")
     .sort((a, b) => a.event.localeCompare(b.event)),
 });
-const eventMap = new Map(events.map((event) => [event.id, event.name]));
+const eventMap = new Map(typedEvents.map((event) => [event.id, event.name]));
 const grouped = groupBy(
-  allAmericans,
-  (record) => `${record.semester} ${record.year}`,
-);
+  typedAllAmericans,
+  (record: RecordDocument) => `${record.semester} ${record.year}`,
+) as Record<string, RecordDocument[]>;
 const semesters = sortedSemesters(grouped);
 ---
 
@@ -149,7 +153,7 @@ const semesters = sortedSemesters(grouped);
                     <tr class="hover:bg-white/60">
                       <td class="px-6 py-4 font-semibold">{record.name}</td>
                       <td class="px-6 py-4">
-                        {eventMap.get(record.eventId) || "—"}
+                        {eventMap.get(record.eventId || "") || "—"}
                       </td>
                       <td class="px-6 py-4">{record.time || "—"}</td>
                       <td class="px-6 py-4">{record.place || "—"}</td>

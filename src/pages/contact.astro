@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import NavBar from "./_components/NavBar.astro";
-const slugify = (str) =>
+const slugify = (str: string) =>
   str
     .toLowerCase()
     .replace(/[^\w\s-]/g, "")
